@@ -1,0 +1,9 @@
+.app{
+    font-family: 'Inter', sans-serif;
+}
+.active{
+    
+        border:1px solid white;
+        background-color:transparent;
+       
+}
