@@ -20,8 +20,6 @@ const App =()=>{
         <NavBar/>
     
         <Grid item xs={8}>
-          <SearchBar/>
-          <Divider/>
           <Routes>
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/news" element={<News/>}></Route>
