@@ -48,14 +48,14 @@ export const HomePage = (props: Props) => {
           <Link to="/crypto">Show more</Link>
         </h3>
       </div>
-      <Crypto  simplified />
+      <Crypto simplified />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h2>Latest Crypto News</h2>
         <h3>
           <Link to="/news">Show more</Link>
         </h3>
       </div>
-      <News/>
+      <News simplified />
     </>
   );
 };

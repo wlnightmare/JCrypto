@@ -15,18 +15,28 @@ const StyledTextField = styled(TextField)`
   outline: none;
   border: 0;
 `;
-type Props={
-  setSearchTerm: (value:string)=>void
-}
+type Props = {
+  setSearchTerm: (value: string) => void;
+};
 
-const SearchBar:FC<Props> = ({setSearchTerm}) => {
+const SearchBar: FC<Props> = ({ setSearchTerm }) => {
   return (
     <>
       <InputContainer>
-        <StyledTextField onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-         InputProps={{ style: {
-         paddingLeft:16
-       },startAdornment:(<InputAdornment position="start"><SearchIcon/></InputAdornment>)}}placeholder="search coins..." />
+        <StyledTextField
+          onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+          InputProps={{
+            style: {
+              paddingLeft: 16,
+            },
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+          placeholder="search coins..."
+        />
       </InputContainer>
     </>
   );
