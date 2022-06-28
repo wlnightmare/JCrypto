@@ -44,3 +44,11 @@ export interface ThemeContextType {
   theme: string;
   changeTheme: (value: string) => void;
 }
+
+export type ModeType = {
+  mode: boolean;
+};
+
+export interface ThemeStore {
+  darkmode: boolean;
+}

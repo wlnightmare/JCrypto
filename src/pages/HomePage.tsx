@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { useGetCryptosQuery } from "../services/api";
 import Crypto from "./Crypto";
 import News from "./News";
-type Props = {};
+type Props = {
+  mode: boolean;
+};
 
 export const HomePage = (props: Props) => {
   const { data, isFetching } = useGetCryptosQuery(10);
@@ -48,7 +50,7 @@ export const HomePage = (props: Props) => {
           <Link to="/crypto">Show more</Link>
         </h3>
       </div>
-      <Crypto simplified />
+      <Crypto mode={props.mode} simplified />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h2>Latest Crypto News</h2>
         <h3>

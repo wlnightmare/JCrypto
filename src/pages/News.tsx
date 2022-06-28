@@ -5,7 +5,6 @@ import {
   CircularProgress,
   Grid,
   styled,
-  TextField,
   Typography,
 } from "@mui/material";
 import moment from "moment";
@@ -54,7 +53,7 @@ const News: FC<Props> = ({ simplified }) => {
           columns={{ xs: 4, sm: 6, md: 12 }}
         >
           {cryptoNews?.value?.map((news: NewsType) => (
-            <Grid item xs={2} sm={4} md={4}>
+            <Grid key={news.name} item xs={2} sm={4} md={4}>
               <StyledCard style={{ padding: "16px" }}>
                 <Box
                   style={{ display: "flex", justifyContent: "space-between" }}
