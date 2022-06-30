@@ -22,6 +22,7 @@ const CryptoImg = styled("img")`
   object-fit: contain;
 `;
 const StyledCard = styled(Card)<ModeType>`
+  height: 130px;
   &:hover {
     transform: translateY(0) scale(1.1);
     transition: 0.2s;

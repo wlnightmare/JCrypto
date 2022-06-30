@@ -8,7 +8,7 @@ import News from "./pages/News";
 import Exchange from "./pages/Exchange";
 import Crypto from "./pages/Crypto";
 
-import { Button, styled } from "@mui/material";
+import { Button, createStyles, makeStyles, styled, Theme } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import Brightness3Icon from "@mui/icons-material/Brightness3";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,20 +48,18 @@ const App = () => {
           <LightModeIcon />
         </StyledButton>
       )}
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container style={{ minHeight: "100vh" }} spacing={3}>
-          <NavBar />
+      <div style={{ minHeight: "100vh", display: "flex", overflow: "hidden" }}>
+        <NavBar />
 
-          <Grid item xs={8}>
-            <Routes>
-              <Route path="/" element={<HomePage mode={mode} />}></Route>
-              <Route path="/news" element={<News />}></Route>
-              <Route path="/exchange" element={<Exchange />}></Route>
-              <Route path="/crypto" element={<Crypto mode={mode} />}></Route>
-            </Routes>
-          </Grid>
-        </Grid>
-      </Box>
+        <div className="main">
+          <Routes>
+            <Route path="/" element={<HomePage mode={mode} />}></Route>
+            <Route path="/news" element={<News />}></Route>
+            <Route path="/exchange" element={<Exchange />}></Route>
+            <Route path="/crypto" element={<Crypto mode={mode} />}></Route>
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
-import { MenuList, MenuItem, Grid, styled, Button } from "@mui/material";
-import { link } from "fs";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { MenuList, MenuItem, styled, Button } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 type Props = {};
 
@@ -9,13 +8,13 @@ const StyledHeader = styled("p")`
   color: white;
   text-align: center;
   font-weight: bold;
+  margin-top: 15px;
 `;
-const StyledGrid = styled(Grid)`
+const StyledGrid = styled("div")`
   background-color: #ef5630;
-  width: 100%;
-  @media (max-width: 1086px) {
-    color: red;
-  }
+  width: 15%;
+
+  float: left;
 `;
 const StyledMenuItem = styled(MenuItem)`
   &:hover {
@@ -27,7 +26,11 @@ const StyledButton = styled(Button)`
   text-decoration: none;
   color: white;
   text-transform: none;
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;
+
 const navBarLinks = [
   {
     path: "/",
@@ -55,14 +58,11 @@ export const NavBar = ({}: Props) => {
   const navigate = useNavigate();
   return (
     <>
-      <StyledGrid item xs={2} >
+      <StyledGrid>
         <StyledHeader>JCrypto</StyledHeader>
         <MenuList>
           {navBarLinks.map((list) => (
-            <StyledMenuItem
-              key={list.name}
-              style={{ marginBottom: "15px", display: "flex", gap: "10px" }}
-            >
+            <StyledMenuItem key={list.name} style={{ marginBottom: "15px" }}>
               <img alt="icon" src={list.src}></img>
               <StyledButton onClick={() => navigate(list.path)}>
                 {list.name}

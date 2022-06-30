@@ -1,16 +1,9 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CircularProgress,
-  Grid,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CircularProgress, Grid, styled } from "@mui/material";
 import moment from "moment";
 
-import React, { FC, useState } from "react";
-import { useGetCryptosQuery } from "../services/api";
+import React, { FC, useEffect, useState } from "react";
+import SearchBar from "../components/SearchBar";
+
 import { useGetCryptoNewsQuery } from "../services/cryptoNews";
 import { NewsType } from "../types";
 
@@ -30,14 +23,26 @@ const StyledCard = styled(Card)`
   height: 300px;
 `;
 
+const StyledIcon = styled("img")`
+  width: 30px;
+  margin-top: 10px;
+`;
+
 const News: FC<Props> = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
+  const [searchTermofNews, setSearchTermofNews] = useState("");
+  const [news, setNews] = useState([]);
 
-  const { data } = useGetCryptosQuery(100);
   const { data: cryptoNews } = useGetCryptoNewsQuery({
     newsCategory,
-    count: simplified ? 6 : 12,
+    count: simplified ? 6 : 30,
   });
+  useEffect(() => {
+    const filteredData = cryptoNews?.value.filter((news: NewsType) =>
+      news.name.toLocaleLowerCase().includes(searchTermofNews)
+    );
+    setNews(filteredData);
+  }, [cryptoNews, searchTermofNews]);
 
   const demoNews =
     "https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News";
@@ -45,14 +50,14 @@ const News: FC<Props> = ({ simplified }) => {
   if (!cryptoNews?.value) return <CircularProgress />;
   return (
     <>
-      {!simplified && <input></input>}
+      {!simplified && <SearchBar setSearchTerm={setSearchTermofNews} />}
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 6, md: 12 }}
         >
-          {cryptoNews?.value?.map((news: NewsType) => (
+          {news?.map((news: NewsType) => (
             <Grid key={news.name} item xs={2} sm={4} md={4}>
               <StyledCard style={{ padding: "16px" }}>
                 <Box
@@ -64,19 +69,24 @@ const News: FC<Props> = ({ simplified }) => {
                   />
                 </Box>
                 <p>{news?.description}</p>
-                {/* 
+
                 <div>
-                  <Avatar
+                  <StyledIcon
                     src={
                       news.provider[0]?.image?.thumbnail?.contentUrl || demoNews
                     }
                     alt=""
                   />
-                  <p>{news.provider[0]?.name}</p>
-                  <p>
-                    {moment(news.datePublished).format("DD MMM YYYY HH:mm:ss")}
-                  </p>
-                </div> */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p>{news.provider[0]?.name}</p>
+                    <p>{moment(news.datePublished).fromNow()}</p>
+                  </div>
+                </div>
               </StyledCard>
             </Grid>
           ))}

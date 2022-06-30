@@ -1,9 +1,21 @@
+* {
+  margin: 0;
+}
+
 .app {
   font-family: "Inter", sans-serif;
   background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 .dark-content {
   opacity: 0.75;
   background: black;
   color: white;
+}
+
+.main {
+  width: 75%;
+  margin-left: 20px;
+  margin-top: 10px;
 }

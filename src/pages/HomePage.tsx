@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 import millify from "millify";
 import { Link } from "react-router-dom";
@@ -8,19 +9,22 @@ type Props = {
   mode: boolean;
 };
 
+const Header = styled("h2")`
+  margin: 15px 0;
+`;
+
 export const HomePage = (props: Props) => {
   const { data, isFetching } = useGetCryptosQuery(10);
 
   const globalStats = data?.data?.stats;
-  console.log(globalStats);
 
   if (isFetching) return <CircularProgress color="secondary" size="50" />;
   return (
     <>
-      <h1> Global Crypto Stats</h1>
+      <h1 style={{ margin: "15px 0" }}> Global Crypto Stats</h1>
       <Grid
         container
-        spacing={{ xs: 1, md: 1 }}
+        spacing={{ xs: 1, md: 4 }}
         columns={{ xs: 2, sm: 3, md: 14 }}
       >
         <Grid item xs={5}>
@@ -45,14 +49,14 @@ export const HomePage = (props: Props) => {
         </Grid>
       </Grid>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>Top 10 Cryptocurrencies in the world</h2>
+        <Header>Top 10 Cryptocurrencies in the world</Header>
         <h3>
           <Link to="/crypto">Show more</Link>
         </h3>
       </div>
       <Crypto mode={props.mode} simplified />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>Latest Crypto News</h2>
+        <Header>Latest Crypto News</Header>
         <h3>
           <Link to="/news">Show more</Link>
         </h3>
