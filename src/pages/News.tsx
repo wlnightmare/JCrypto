@@ -5,30 +5,40 @@ import React, { FC, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 
 import { useGetCryptoNewsQuery } from "../services/cryptoNews";
-import { NewsType } from "../types";
+import { ModeType, NewsType } from "../types";
 
 type Props = {
   simplified?: boolean;
+  mode: boolean;
 };
 
 const StyledImg = styled("img")`
   object-fit: contain;
 `;
 
-const StyledCard = styled(Card)`
-  &:hover {
-    transform: translateY(0) scale(1.1);
-    transition: 0.2s;
-  }
-  height: 300px;
-`;
-
 const StyledIcon = styled("img")`
   width: 30px;
   margin-top: 10px;
 `;
+const StyledCardsContainer = styled("div")`
+  display: flex;
 
-const News: FC<Props> = ({ simplified }) => {
+  gap: 15px;
+  flex-wrap: wrap;
+`;
+
+const StyledCard = styled(Card)<ModeType>`
+  &:hover {
+    transform: translateY(0) scale(1.1);
+    transition: 0.2s;
+  }
+  background-color: ${(props) => (props.mode ? "#cabac8" : "white")};
+
+  padding: 16px;
+  width: 300px;
+`;
+
+const News: FC<Props> = ({ simplified, mode }) => {
   const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
   const [searchTermofNews, setSearchTermofNews] = useState("");
   const [news, setNews] = useState([]);
@@ -51,47 +61,38 @@ const News: FC<Props> = ({ simplified }) => {
   return (
     <>
       {!simplified && <SearchBar setSearchTerm={setSearchTermofNews} />}
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 6, md: 12 }}
-        >
-          {news?.map((news: NewsType) => (
-            <Grid key={news.name} item xs={2} sm={4} md={4}>
-              <StyledCard style={{ padding: "16px" }}>
-                <Box
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <h3>{news?.name}</h3>
-                  <StyledImg
-                    src={news?.image?.thumbnail?.contentUrl || demoNews}
-                  />
-                </Box>
-                <p>{news?.description}</p>
+      <StyledCardsContainer>
+        {news?.map((news: NewsType) => (
+          <StyledCard mode={mode} key={news.name}>
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <h3>{news?.name}</h3>
+              <StyledImg src={news?.image?.thumbnail?.contentUrl || demoNews} />
+            </Box>
+            <p>{news?.description}</p>
 
-                <div>
-                  <StyledIcon
-                    src={
-                      news.provider[0]?.image?.thumbnail?.contentUrl || demoNews
-                    }
-                    alt=""
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <p>{news.provider[0]?.name}</p>
-                    <p>{moment(news.datePublished).fromNow()}</p>
-                  </div>
-                </div>
-              </StyledCard>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+            <div>
+              <StyledIcon
+                src={news.provider[0]?.image?.thumbnail?.contentUrl || demoNews}
+                alt=""
+              />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <p>{news.provider[0]?.name}</p>
+                <p>{moment(news.datePublished).fromNow()}</p>
+              </div>
+            </div>
+          </StyledCard>
+        ))}
+      </StyledCardsContainer>
     </>
   );
 };

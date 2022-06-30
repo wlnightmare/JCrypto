@@ -1616,12 +1616,12 @@
     "react-transition-group" "^4.4.2"
 
 "@mui/private-theming@^5.8.4":
-  "integrity" "sha512-3Lp0VAEjtQygJ70MWEyHkKvg327O6YoBH6ZNEy6fIsrK6gmRIj+YrlvJ7LQCbowY+qDGnbdMrTBd1hfThlI8lg=="
-  "resolved" "https://registry.npmjs.org/@mui/private-theming/-/private-theming-5.8.4.tgz"
-  "version" "5.8.4"
+  "integrity" "sha512-yHsJk1qU9r/q0DlnxGRJPHyM0Y/nUv8FTNgDTiI9I58GWuVuZqeTUr7JRvPh6ybeP/FLtW5eXEavRK9wxVk4uQ=="
+  "resolved" "https://registry.npmjs.org/@mui/private-theming/-/private-theming-5.8.6.tgz"
+  "version" "5.8.6"
   dependencies:
     "@babel/runtime" "^7.17.2"
-    "@mui/utils" "^5.8.4"
+    "@mui/utils" "^5.8.6"
     "prop-types" "^15.8.1"
 
 "@mui/styled-engine@^5.8.0":
@@ -1652,10 +1652,10 @@
   "resolved" "https://registry.npmjs.org/@mui/types/-/types-7.1.4.tgz"
   "version" "7.1.4"
 
-"@mui/utils@^5.8.4":
-  "integrity" "sha512-BHYErfrjqqh76KaDAm8wZlhEip1Uj7Cmco65NcsF3BWrAl3FWngACpaPZeEbTgmaEwyWAQEE6LZhsmy43hfyqQ=="
-  "resolved" "https://registry.npmjs.org/@mui/utils/-/utils-5.8.4.tgz"
-  "version" "5.8.4"
+"@mui/utils@^5.8.4", "@mui/utils@^5.8.6":
+  "integrity" "sha512-QM2Sd1xZo2jOt2Vz5Rmro+pi2FLJyiv4+OjxkUwXR3oUM65KSMAMLl/KNYU55s3W3DLRFP5MVwE4FhAbHseHAg=="
+  "resolved" "https://registry.npmjs.org/@mui/utils/-/utils-5.8.6.tgz"
+  "version" "5.8.6"
   dependencies:
     "@babel/runtime" "^7.17.2"
     "@types/prop-types" "^15.7.5"

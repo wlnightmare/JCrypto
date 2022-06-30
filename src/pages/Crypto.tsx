@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  CircularProgress,
-  Divider,
-  Grid,
-  styled,
-} from "@mui/material";
+import { Box, CircularProgress, Divider, styled } from "@mui/material";
 import millify from "millify";
 import React, { FC, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
@@ -21,13 +14,25 @@ const CryptoImg = styled("img")`
   width: 35px;
   object-fit: contain;
 `;
-const StyledCard = styled(Card)<ModeType>`
-  height: 130px;
+
+const StyledCardsCointainer = styled("div")`
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  @media (max-width: 700px) {
+    justify-content: center;
+  }
+`;
+const StyledCardItem = styled("div")<ModeType>`
+  background-color: ${(props) => (props.mode ? "#cabac8" : "white")};
+  margin-top: 10px;
+  height: 150px;
+  padding: 16px;
+  width: 250px;
   &:hover {
     transform: translateY(0) scale(1.1);
     transition: 0.2s;
   }
-  background-color: ${(props) => (props.mode ? "#cabac8" : "white")};
 `;
 
 const Crypto: FC<Props> = ({ simplified, mode }) => {
@@ -48,30 +53,20 @@ const Crypto: FC<Props> = ({ simplified, mode }) => {
     <>
       {!simplified && <SearchBar setSearchTerm={setSearchTerm} />}
 
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 16 }}
-        >
-          {cryptos?.map((currency: Currency) => (
-            <Grid item xs={2} sm={4} md={4} key={currency.uuid}>
-              <StyledCard mode={mode} style={{ padding: "16px" }}>
-                <Box
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <h3>{currency.name}</h3>
-                  <CryptoImg src={currency.iconUrl} alt="icon" />
-                </Box>
-                <Divider />
-                <p>Price: {millify(+currency.price)}</p>
-                <p>Market Cap: {millify(parseInt(currency.marketCap))}</p>{" "}
-                <p>Daily Change: {millify(parseInt(currency.change))}</p>
-              </StyledCard>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      <StyledCardsCointainer>
+        {cryptos?.map((currency: Currency) => (
+          <StyledCardItem mode={mode}>
+            <Box style={{ display: "flex", justifyContent: "space-between" }}>
+              <h3>{currency.name}</h3>
+              <CryptoImg src={currency.iconUrl} alt="icon" />
+            </Box>
+            <Divider />
+            <p>Price: {millify(+currency.price)}</p>
+            <p>Market Cap: {millify(parseInt(currency.marketCap))}</p>{" "}
+            <p>Daily Change: {millify(parseInt(currency.change))}</p>
+          </StyledCardItem>
+        ))}
+      </StyledCardsCointainer>
     </>
   );
 };
