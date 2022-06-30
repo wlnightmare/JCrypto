@@ -1,14 +1,26 @@
-import { MenuList, MenuItem, styled, Button, Typography } from "@mui/material";
+import {
+  MenuList,
+  MenuItem,
+  styled,
+  Button,
+  Typography,
+  Icon,
+} from "@mui/material";
 import { Box } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import { CurrencyExchange } from "@mui/icons-material";
+import HomeIcon from "@mui/icons-material/Home";
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+
 type Props = {};
 
 const StyledHeader = styled(Typography)`
-  color: white;
+  color: #ef5630;
   text-align: center;
   font-weight: bold;
   margin-top: 15px;
@@ -20,13 +32,17 @@ const StyledDiv = styled("div")`
   position: fixed;
   left: 0;
   height: 100vh;
-  background-color: #ef5630;
+  background-color: white;
   width: 15%;
+  @media (max-width: 1000px) {
+    width: 20%;
+  }
   @media (max-width: 800px) {
     height: 8vh;
     position: fixed;
     width: 100%;
     z-index: 100;
+    background-color: #ef5630;
   }
 `;
 const StyledMenuItem = styled(MenuItem)`
@@ -42,9 +58,16 @@ const StyledMenuItem = styled(MenuItem)`
 `;
 const StyledButton = styled(Button)`
   text-decoration: none;
-  color: white;
+  font-size: 18px;
+  color: #ef5630;
+  font-weight: bold;
+  cursor: pointer;
+  @media (max-width: 800px) {
+    color: white;
+  }
+
   text-transform: none;
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
 `;
 const StyledMenuList = styled(MenuList)`
   position: absolute;
@@ -60,7 +83,6 @@ const MenuButton = styled(Button)`
 
   top: 15px !important;
   font-size: 1.2rem !important;
-  background-color: var(--bgSecondary) !important;
   border: none !important;
   @media (max-width: 800px) {
     display: block !important;
@@ -70,22 +92,22 @@ const MenuButton = styled(Button)`
 const navBarLinks = [
   {
     path: "/",
-    src: require("../icons/home1.svg").default,
+    icon: <HomeIcon style={{ color: "#ef5630" }} />,
     name: "Home",
   },
   {
     path: "/news",
-    src: require("../icons/news.svg").default,
+    icon: <NewspaperIcon style={{ color: "#ef5630" }} />,
     name: "News",
   },
   {
     path: "/exchange",
-    src: require("../icons/exhange.svg").default,
+    icon: <CurrencyExchange style={{ color: "#ef5630" }} />,
     name: "Exchange",
   },
   {
     path: "/crypto",
-    src: require("../icons/crypto.svg").default,
+    icon: <CurrencyBitcoinIcon style={{ color: "#ef5630" }} />,
     name: "Cryptocoins",
   },
 ];
@@ -130,7 +152,7 @@ export const NavBar: FC<Props> = () => {
                 key={list.name}
                 style={{ marginBottom: "15px" }}
               >
-                <img alt="icon" src={list.src}></img>
+                {list.icon}
                 <StyledButton>{list.name}</StyledButton>
               </StyledMenuItem>
             ))}

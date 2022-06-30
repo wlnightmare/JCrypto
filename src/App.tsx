@@ -1,12 +1,9 @@
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { NavBar } from "./components/NavBar";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import News from "./pages/News";
 import Exchange from "./pages/Exchange";
-import Crypto from "./pages/Crypto";
 
 import { Button, styled } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -15,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setDarkTheme, setDefaultTheme } from "./app/themeSlice";
 import { RootState } from "./app/store";
-import { useState } from "react";
+
+import Coins from "./pages/Coins";
 
 const StyledButton = styled(Button)`
   position: fixed;
@@ -67,7 +65,7 @@ const App = () => {
               <Route path="/" element={<HomePage mode={mode} />}></Route>
               <Route path="/news" element={<News mode={mode} />}></Route>
               <Route path="/exchange" element={<Exchange />}></Route>
-              <Route path="/crypto" element={<Crypto mode={mode} />}></Route>
+              <Route path="/crypto" element={<Coins mode={mode} />}></Route>
             </Routes>
           </div>
         </StyledDiv>

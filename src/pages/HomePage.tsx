@@ -6,6 +6,7 @@ import { useGetCryptosQuery } from "../services/api";
 import Crypto from "./Crypto";
 import News from "./News";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Coins from "./Coins";
 type Props = {
   mode: boolean;
 };
@@ -30,6 +31,7 @@ const ShowIcon = styled(KeyboardArrowDownIcon)`
 const StyledLink = styled(Link)`
   text-decoration: none;
 
+  color: black;
   @media (max-width: 700px) {
     display: none;
   }
@@ -84,15 +86,16 @@ export const HomePage = (props: Props) => {
       <StyledDivider />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Header>Top 10 Cryptocurrencies in the world</Header>
-        <h3>
+        <h3 style={{ marginTop: 10 }}>
           <ShowIcon></ShowIcon>
           <StyledLink to="/crypto">Show more</StyledLink>
         </h3>
       </div>
-      <Crypto mode={props.mode} simplified />
+      {/* <Crypto mode={props.mode} simplified /> */}
+      <Coins simplified />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Header>Latest Crypto News</Header>
-        <h3>
+        <h3 style={{ marginTop: 10 }}>
           <ShowIcon></ShowIcon>
           <StyledLink to="/crypto">Show more</StyledLink>
         </h3>
