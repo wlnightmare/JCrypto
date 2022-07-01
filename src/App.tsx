@@ -15,6 +15,8 @@ import { RootState } from "./app/store";
 
 import Coins from "./pages/Coins";
 import { CryptoDetails } from "./components/CryptoDetails";
+import { setOpen } from "./app/modalSlice";
+import RegisterModal from "./components/Modal";
 
 const StyledButton = styled(Button)`
   position: fixed;
@@ -22,6 +24,15 @@ const StyledButton = styled(Button)`
   top: 10px;
   right: 3%;
   color: orange;
+`;
+const OpenModalButton = styled(Button)`
+  position: fixed;
+  z-index: 1000;
+  top: 10px;
+  right: 8%;
+  @media (max-width: 700px) {
+    right: 10%;
+  }
 `;
 const StyledDiv = styled("div")`
   display: flex;
@@ -34,6 +45,11 @@ const StyledDiv = styled("div")`
 const App = () => {
   const dispatch = useDispatch();
   const mode = useSelector((state: RootState) => state.mode.darkmode);
+  const open = useSelector((state: RootState) => state.modal.open);
+
+  const handleClick = () => {
+    dispatch(setOpen());
+  };
 
   const setDark = () => {
     dispatch(setDarkTheme());
@@ -47,6 +63,8 @@ const App = () => {
   return (
     <>
       <div className={className}>
+        <OpenModalButton onClick={handleClick}>Sign in</OpenModalButton>
+        {open && <RegisterModal open={open} />}
         <StyledDiv>
           {!mode ? (
             <StyledButton onClick={setDark}>
