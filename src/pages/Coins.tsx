@@ -13,10 +13,12 @@ import {
   TableRow,
 } from "@mui/material";
 import millify from "millify";
-import React, { FC, useEffect, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 import { setCurrency } from "../app/symbolSlice";
+import { LineChart } from "../components/LineChart";
 import SearchBar from "../components/SearchBar";
 import { useGetCryptosQuery } from "../services/api";
 import { Currency, ModeType } from "../types";
@@ -47,10 +49,11 @@ const numberWithCommas = (x: string, currency: string) => {
 
 const Coins: FC<Props> = ({ simplified, mode }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currencyState, setCurrencyState] = useState("USD");
 
-  const symbol = useSelector((state: RootState) => state.currency.symbol);
-  const currency = useSelector((state: RootState) => state.currency.currency);
+  const symbol = useSelector((state: any) => state.currency.symbol);
+  const currency = useSelector((state: any) => state.currency.currency);
   const count = simplified ? 10 : 100;
   const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([]);
@@ -70,7 +73,7 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
 
   if (isFetching) return <CircularProgress />;
 
-  const headers = ["Coin", "Price", "24h Change", "Market Cap"];
+  const headers = ["Coin", "Price", "24h Change", "Market Cap", "Graph"];
   return (
     <>
       <StyledSelect
@@ -106,7 +109,10 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
             {cryptos?.map((coins: Currency) => {
               return (
                 <TableRow key={coins.uuid}>
-                  <TableCell style={{ display: "flex" }}>
+                  <TableCell
+                    style={{ display: "flex" }}
+                    onClick={() => navigate(`/crypto/${coins.uuid}`)}
+                  >
                     <CryptoImg src={coins.iconUrl} alt="icon" />
                     <div style={{ marginLeft: 10 }}>
                       <p style={{ fontSize: "20px", fontWeight: "bold" }}>
@@ -132,6 +138,7 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
                     {symbol} &nbsp;
                     {millify(numberWithCommas(coins.marketCap, currency))}
                   </TableCell>
+                  <TableCell>тут граф</TableCell>
                 </TableRow>
               );
             })}

@@ -14,6 +14,7 @@ import { setDarkTheme, setDefaultTheme } from "./app/themeSlice";
 import { RootState } from "./app/store";
 
 import Coins from "./pages/Coins";
+import { CryptoDetails } from "./components/CryptoDetails";
 
 const StyledButton = styled(Button)`
   position: fixed;
@@ -66,6 +67,10 @@ const App = () => {
               <Route path="/news" element={<News mode={mode} />}></Route>
               <Route path="/exchange" element={<Exchange />}></Route>
               <Route path="/crypto" element={<Coins mode={mode} />}></Route>
+              <Route
+                path="/crypto/:coinId"
+                element={<CryptoDetails mode={mode} />}
+              />
             </Routes>
           </div>
         </StyledDiv>
