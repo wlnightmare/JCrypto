@@ -52,3 +52,7 @@ export type ModeType = {
 export interface ThemeStore {
   darkmode: boolean;
 }
+
+export interface SortState {
+  coins: Currency[];
+}

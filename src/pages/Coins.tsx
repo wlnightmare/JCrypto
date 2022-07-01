@@ -15,6 +15,7 @@ import {
 import millify from "millify";
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { RootState } from "../app/store";
 import { setCurrency } from "../app/symbolSlice";
 import SearchBar from "../components/SearchBar";
@@ -48,7 +49,6 @@ const numberWithCommas = (x: string, currency: string) => {
 const Coins: FC<Props> = ({ simplified, mode }) => {
   const dispatch = useDispatch();
   const [currencyState, setCurrencyState] = useState("USD");
-
   const symbol = useSelector((state: RootState) => state.currency.symbol);
   const currency = useSelector((state: RootState) => state.currency.currency);
   const count = simplified ? 10 : 100;
@@ -75,8 +75,10 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
     <>
       <StyledSelect
         variant="outlined"
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
         value={currencyState}
-        onChange={() => handleChange(e)}
+        onChange={(e) => handleChange(e)}
         mode
       >
         <MenuItem value={"USD"}>USD</MenuItem>

@@ -3,6 +3,7 @@ import { cryptoApi } from "../services/api";
 import { cryptoNewsApi } from "../services/cryptoNews";
 import themeSlice from "./themeSlice";
 import currencySymbol from "./symbolSlice";
+import modalSlice from "./modalSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [cryptoNewsApi.reducerPath]: cryptoNewsApi.reducer,
     mode: themeSlice,
     currency: currencySymbol,
+    modal: modalSlice,
   },
 });
 export default store;
