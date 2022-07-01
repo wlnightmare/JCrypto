@@ -15,6 +15,30 @@ export interface Currency {
   symbol: string;
   tier: number;
   uuid: string;
+  allTimeHigh: ICoinHistoryData;
+  supply: ICoinSupply;
+  numberOfExchanges: number;
+  numberOfMarkets: number;
+  description: string;
+  links: ICoinLinks[];
+}
+export interface ICoinHistoryResult {
+  change: string;
+  history: ICoinHistoryData[];
+}
+export interface ICoinHistoryData {
+  price: string;
+  timestamp: number;
+}
+export interface ICoinLinks {
+  name: string;
+  type: string;
+  url: string;
+}
+export interface ICoinSupply {
+  confirmed: boolean;
+  total: string;
+  circulating: string;
 }
 
 export interface NewsType {
