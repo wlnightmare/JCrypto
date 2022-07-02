@@ -8,7 +8,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Coins from "./Coins";
 import { ModeType } from "../types";
 import { COLORS } from "../constants/color";
-import { backgroundUrl, titles } from "../constants/mockData";
+import { titles } from "../constants/mockData";
 
 type Props = {
   mode: boolean;
