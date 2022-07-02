@@ -23,7 +23,7 @@ type Props = {};
 
 const StyledHeader = styled(Typography)`
   color: ${COLORS.SECONDARY};
-
+  cursor: pointer;
   text-align: center;
   font-weight: bold;
   font-size: 20px;
@@ -140,7 +140,7 @@ export const NavBar: FC<Props> = () => {
   return (
     <>
       <StyledDiv>
-        <StyledHeader>JCrypto</StyledHeader>
+        <StyledHeader onClick={() => navigate("/")}>JCrypto</StyledHeader>
         <MenuButton onClick={() => setActiveMenu(!activeMenu)}>
           <MenuIcon style={{ color: "grey" }} />
         </MenuButton>
