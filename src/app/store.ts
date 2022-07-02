@@ -15,6 +15,10 @@ const store = configureStore({
     user: userSlice,
     modal: modalSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(cryptoApi.middleware)
+      .concat(cryptoNewsApi.middleware),
 });
 export default store;
 export type AppDispatch = typeof store.dispatch;
