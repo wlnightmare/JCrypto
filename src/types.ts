@@ -76,3 +76,11 @@ export type ModeType = {
 export interface ThemeStore {
   darkmode: boolean;
 }
+export type AuthProp = { handleClose: () => void };
+export type FormValues = {
+  email: string;
+  password: string;
+};
+export type ModalOpenClose = {
+  open: boolean;
+};
