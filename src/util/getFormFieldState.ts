@@ -1,4 +1,4 @@
-import { FormValues } from "../components/Form";
+import { FormValues } from "../types";
 import { ControllerFieldState, UseFormStateReturn } from "react-hook-form";
 
 export function getFormFieldState(
