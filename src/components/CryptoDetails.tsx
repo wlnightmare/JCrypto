@@ -1,17 +1,9 @@
-import {
-  Button,
-  Container,
-  Divider,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  styled,
-  Typography,
-} from "@mui/material";
+import { Button, CircularProgress, Divider, styled } from "@mui/material";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
 import { FC, MouseEventHandler, useState } from "react";
 import { useParams } from "react-router-dom";
+import { COLORS } from "../constants/color";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
@@ -21,15 +13,17 @@ import { LineChart } from "./LineChart";
 
 type Props = { mode: boolean };
 
-const CoinHeading = styled("div")`
+const CoinHeading = styled("div")<ModeType>`
   display: flex;
   flex-direction: column;
   width: 25%;
   float: left;
+  color: ${(props) =>
+    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
   margin-right: 10px;
   padding: 10px;
   font-weight: bold;
-  font-family: "Montserrat Alternates", sans-serif;
+
   @media (max-width: 800px) {
     justify-content: center;
     width: 100%;
@@ -66,7 +60,7 @@ const StyledDivider = styled(Divider)<ModeType>`
   }
 `;
 
-const SelectButton = styled(Button)`
+const SelectButton = styled(Button)<ModeType>`
   border: 2px solid white;
   border-radius: 5;
   padding: 10;
@@ -75,11 +69,12 @@ const SelectButton = styled(Button)`
   font-weight: bold;
   font-family: "Montserrat Alternates", sans-serif;
   cursor: pointer;
-  background-color: #ef5630;
-  color: white;
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
+  color: ${(props) => (props.mode ? `${COLORS.SECONDARY}` : "white")};
   &:hover {
     background-color: white;
-    border: 2px solid #ef5630;
+    border: 2px solid ${COLORS.DETAILS};
     color: black;
   }
   width: 22%;
@@ -98,22 +93,26 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
 
   const time = ["24h", "7d", "30d", "1y"];
 
+  if (!cryptoDetail && !coinHistory) return <CircularProgress />;
+
   return (
     <ContainerDiv>
-      <CoinHeading>
+      <CoinHeading mode={mode}>
         <img style={{ maxWidth: "180px" }} src={cryptoDetail?.iconUrl} />
-        <h2 style={{ margin: 10, fontSize: "30px" }}>
-          {cryptoDetail?.name} ({cryptoDetail?.symbol})
+        <h2 style={{ margin: 20, fontSize: "30px" }}>
+          {cryptoDetail?.name}
+          {cryptoDetail?.symbol}
         </h2>
-
         {HTMLReactParser(cryptoDetail?.description.substring(0, 245))}
         <Title>Rank: {cryptoDetail?.rank}</Title>
         <Title>Current Price: {millify(+cryptoDetail?.price)}</Title>
         <Title>Market Cap: {millify(+cryptoDetail?.marketCap)}</Title>
       </CoinHeading>
       <StyledDivider mode={mode} orientation="vertical" flexItem />
+
       <MainContainer>
         <LineChart
+          mode={mode}
           coinHistory={coinHistory!}
           currentPrice={millify(+cryptoDetail?.price ?? 0)}
           coinName={cryptoDetail?.name}
@@ -128,7 +127,7 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
           }}
         >
           {time.map((day) => (
-            <SelectButton onClick={() => setTimeperiod(day)}>
+            <SelectButton mode={mode} onClick={() => setTimeperiod(day)}>
               {day}
             </SelectButton>
           ))}

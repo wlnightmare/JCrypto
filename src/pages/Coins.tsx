@@ -30,7 +30,7 @@ type Props = {
   mode?: boolean;
 };
 
-const numberWithCommas = (x: string, currency: string) => {
+export const numberWithCommas = (x: string, currency: string) => {
   if (currency === "USD") {
     return +x;
   } else {

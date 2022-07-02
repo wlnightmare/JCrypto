@@ -3,9 +3,8 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import SearchIcon from "./SearchIcon";
 
-let width;
 const InputContainer = styled("div")`
-  width: ${width}%;
+  width: 100%;
   background: #ffffff;
   margin-top: 24px;
   margin-bottom: 24px;
@@ -22,14 +21,6 @@ type Props = {
 };
 
 const SearchBar: FC<Props> = ({ setSearchTerm }) => {
-  const location = useLocation().pathname;
-  console.log(location);
-  if (location === "/news") {
-    width = 50;
-  } else {
-    width = 100;
-  }
-  console.log(width);
   return (
     <>
       <InputContainer>
