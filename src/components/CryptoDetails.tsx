@@ -103,7 +103,11 @@ const CryptoDetails: FC<ModeType> = ({ mode }) => {
   return (
     <ContainerDiv>
       <CoinHeading mode={mode}>
-        <img style={{ maxWidth: "180px" }} src={cryptoDetail?.iconUrl} />
+        <img
+          style={{ maxWidth: "180px" }}
+          alt={cryptoDetail?.name}
+          src={cryptoDetail?.iconUrl}
+        />
         <h2 style={{ margin: 20, fontSize: "30px" }}>
           {cryptoDetail?.name}
           {cryptoDetail?.symbol}
