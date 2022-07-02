@@ -11,7 +11,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { removeUser, setUser } from "../app/userSlice";
 import { auth, onAuthStateChanged } from "../firebase";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -101,7 +101,7 @@ const TopBar = () => {
       })
       .catch((err) => alert(err.message));
   };
-  const handleChange = (event: any) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (typeof event.target.value === "string") {
       dispatch(setCurrency(event.target.value));
     }
@@ -110,11 +110,7 @@ const TopBar = () => {
   return (
     <>
       {pathname !== "/news" ? (
-        <StyledSelect
-          onChange={(e) => handleChange(e)}
-          value={currency}
-          mode={mode}
-        >
+        <StyledSelect onChange={handleChange} value={currency} mode={mode}>
           <option value={"USD"}>USD</option>
           <option value={"KZT"}>KZT</option>
         </StyledSelect>
