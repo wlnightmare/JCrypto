@@ -1,17 +1,16 @@
 import { Button, CircularProgress, Divider, styled } from "@mui/material";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
-import { FC, MouseEventHandler, useState } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { COLORS } from "../constants/color";
+import { time } from "../constants/mockData";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
 } from "../services/api";
 import { Currency, ModeType } from "../types";
 import { LineChart } from "./LineChart";
-
-type Props = { mode: boolean };
 
 const CoinHeading = styled("div")<ModeType>`
   display: flex;
@@ -59,29 +58,37 @@ const StyledDivider = styled(Divider)<ModeType>`
     display: none;
   }
 `;
-
-const SelectButton = styled(Button)<ModeType>`
-  border: 2px solid white;
+const ButtonContainer = styled("div")`
+  margin-top: 20;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 10px;
+`;
+type ButtonType = {
+  selected: boolean;
+};
+const SelectButton = styled(Button)<ButtonType>`
+  border: 2px solid #ef5630;
   border-radius: 5;
   padding: 10;
   padding-left: 20;
   padding-right: 20;
-  font-weight: bold;
+  font-weight: ${(props) => (props.selected ? "700" : "500")};
   font-family: "Montserrat Alternates", sans-serif;
   cursor: pointer;
-  background-color: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
-  color: ${(props) => (props.mode ? `${COLORS.SECONDARY}` : "white")};
+  background-color: ${(props) => (props.selected ? "#ef5630" : "")};
+  color: ${(props) => (props.selected ? "white" : "black")};
   &:hover {
-    background-color: white;
-    border: 2px solid ${COLORS.DETAILS};
+    background-color: "#ef5630";
+    border: 2px solid #ef5630;
     color: black;
   }
   width: 22%;
 `;
-const CryptoDetails: FC<Props> = ({ mode }) => {
+const CryptoDetails: FC<ModeType> = ({ mode }) => {
   const { coinId } = useParams();
-  const [timeperiod, setTimeperiod] = useState<string>("7d");
+  const [timeperiod, setTimeperiod] = useState<string>("24h");
   const { data } = useGetCryptoDetailsQuery(coinId);
   const { data: dataHistory } = useGetCryptoHistoryQuery({
     coinId,
@@ -90,8 +97,6 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
 
   const cryptoDetail: Currency = data?.data?.coin;
   const coinHistory = dataHistory?.data;
-
-  const time = ["24h", "7d", "30d", "1y"];
 
   if (!cryptoDetail && !coinHistory) return <CircularProgress />;
 
@@ -117,21 +122,17 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
           currentPrice={millify(+cryptoDetail?.price ?? 0)}
           coinName={cryptoDetail?.name}
         />
-        <div
-          style={{
-            marginTop: 20,
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            gap: "10px",
-          }}
-        >
+        <ButtonContainer>
           {time.map((day) => (
-            <SelectButton mode={mode} onClick={() => setTimeperiod(day)}>
-              {day}
+            <SelectButton
+              key={day.value}
+              onClick={() => setTimeperiod(day.value)}
+              selected={day.value === timeperiod}
+            >
+              {day.label}
             </SelectButton>
           ))}
-        </div>
+        </ButtonContainer>
       </MainContainer>
     </ContainerDiv>
   );
