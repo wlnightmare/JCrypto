@@ -38,9 +38,9 @@ const StyledDiv = styled("div")`
   left: 0;
   height: 100vh;
   background-color: ${COLORS.DETAILS};
-  width: 15%;
+  width: 18%;
   @media (max-width: 1000px) {
-    width: 20%;
+    width: 22%;
   }
   @media (max-width: 800px) {
     height: 8vh;
