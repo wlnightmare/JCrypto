@@ -2,7 +2,9 @@ import { Box, Card, CircularProgress, Grid, styled } from "@mui/material";
 import moment from "moment";
 
 import React, { FC, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
+import { COLORS } from "../constants/color";
 
 import { useGetCryptoNewsQuery } from "../services/cryptoNews";
 import { ModeType, NewsType } from "../types";
@@ -25,6 +27,9 @@ const StyledCardsContainer = styled("div")`
 
   gap: 15px;
   flex-wrap: wrap;
+  @media (max-width: 800px) {
+    justify-content: center;
+  }
 `;
 
 const StyledCard = styled(Card)<ModeType>`
@@ -32,9 +37,8 @@ const StyledCard = styled(Card)<ModeType>`
     transform: translateY(0) scale(1.1);
     transition: 0.2s;
   }
-  background-color: ${(props) => (props.mode ? "#cabac8" : "white")};
-
-  padding: 16px;
+  background-color: ${COLORS.WHITE};
+  padding: 10px;
   width: 300px;
 `;
 

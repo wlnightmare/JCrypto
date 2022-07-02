@@ -16,13 +16,17 @@ import { CurrencyExchange } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
+import { COLORS } from "../constants/color";
+import TopBar from "./TopBar";
 
 type Props = {};
 
 const StyledHeader = styled(Typography)`
-  color: #ef5630;
+  color: ${COLORS.SECONDARY};
+
   text-align: center;
   font-weight: bold;
+  font-size: 20px;
   margin-top: 15px;
   @media (max-width: 800px) {
     display: none;
@@ -30,9 +34,10 @@ const StyledHeader = styled(Typography)`
 `;
 const StyledDiv = styled("div")`
   position: fixed;
+
   left: 0;
   height: 100vh;
-  background-color: white;
+  background-color: ${COLORS.DETAILS};
   width: 15%;
   @media (max-width: 1000px) {
     width: 20%;
@@ -42,7 +47,6 @@ const StyledDiv = styled("div")`
     position: fixed;
     width: 100%;
     z-index: 100;
-    background-color: #ef5630;
   }
 `;
 const StyledMenuItem = styled(MenuItem)`
@@ -59,11 +63,11 @@ const StyledMenuItem = styled(MenuItem)`
 const StyledButton = styled(Button)`
   text-decoration: none;
   font-size: 18px;
-  color: #ef5630;
+  color: ${COLORS.SECONDARY};
   font-weight: bold;
   cursor: pointer;
   @media (max-width: 800px) {
-    color: white;
+    color: ${COLORS.SECONDARY};
   }
 
   text-transform: none;
@@ -72,7 +76,7 @@ const StyledButton = styled(Button)`
 const StyledMenuList = styled(MenuList)`
   position: absolute;
   @media (max-width: 800px) {
-    background-color: #ef5630;
+    background-color: ${COLORS.DETAILS};
     margin-top: 52px;
   }
 `;
@@ -92,22 +96,18 @@ const MenuButton = styled(Button)`
 const navBarLinks = [
   {
     path: "/",
-    icon: <HomeIcon style={{ color: "#ef5630" }} />,
+    icon: <HomeIcon style={{ color: `${COLORS.SECONDARY}` }} />,
     name: "Home",
   },
   {
     path: "/news",
-    icon: <NewspaperIcon style={{ color: "#ef5630" }} />,
+    icon: <NewspaperIcon style={{ color: `${COLORS.SECONDARY}` }} />,
     name: "News",
   },
-  {
-    path: "/exchange",
-    icon: <CurrencyExchange style={{ color: "#ef5630" }} />,
-    name: "Exchange",
-  },
+
   {
     path: "/crypto",
-    icon: <CurrencyBitcoinIcon style={{ color: "#ef5630" }} />,
+    icon: <CurrencyBitcoinIcon style={{ color: `${COLORS.SECONDARY}` }} />,
     name: "Cryptocoins",
   },
 ];

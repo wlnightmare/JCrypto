@@ -1,9 +1,6 @@
 import {
   CircularProgress,
-  MenuItem,
   Paper,
-  Select,
-  SelectChangeEvent,
   styled,
   Table,
   TableBody,
@@ -17,9 +14,9 @@ import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
-import { setCurrency } from "../app/symbolSlice";
-import { LineChart } from "../components/LineChart";
+
 import SearchBar from "../components/SearchBar";
+import { COLORS } from "../constants/color";
 import { useGetCryptosQuery } from "../services/api";
 import { Currency, ModeType } from "../types";
 
@@ -28,12 +25,6 @@ const CryptoImg = styled("img")`
   object-fit: contain;
 `;
 
-const StyledSelect = styled(Select)<ModeType>`
-  width: 100;
-  height: 40;
-  margin: 10px 15px;
-  background-color: ${(props) => (props.mode ? "white" : "")};
-`;
 type Props = {
   simplified?: boolean;
   mode?: boolean;
@@ -48,13 +39,11 @@ const numberWithCommas = (x: string, currency: string) => {
 };
 
 const Coins: FC<Props> = ({ simplified, mode }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [currencyState, setCurrencyState] = useState("USD");
   const symbol = useSelector((state: RootState) => state.currency.symbol);
   const currency = useSelector((state: RootState) => state.currency.currency);
   const count = simplified ? 10 : 100;
-  const { data: cryptoList, isFetching } = useGetCryptosQuery(count);
+  const { data: cryptoList } = useGetCryptosQuery(count);
   const [cryptos, setCryptos] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -65,32 +54,18 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setCurrencyState(event.target.value);
-    dispatch(setCurrency(event.target.value));
-  };
-
-  if (isFetching) return <CircularProgress />;
-
   const headers = ["Coin", "Price", "24h Change", "Market Cap", "Graph"];
+  if (!cryptoList) return <CircularProgress />;
   return (
     <>
-      <StyledSelect
-        variant="outlined"
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={currencyState}
-        onChange={(e) => handleChange(e)}
-        mode
-      >
-        <MenuItem value={"USD"}>USD</MenuItem>
-        <MenuItem value={"KZT"}>KZT</MenuItem>
-      </StyledSelect>
       {!simplified && <SearchBar setSearchTerm={setSearchTerm} />}
 
-      <TableContainer component={Paper}>
+      <TableContainer
+        style={{ backgroundColor: COLORS.WHITE, cursor: "pointer" }}
+        component={Paper}
+      >
         <Table aria-label="simple table">
-          <TableHead style={{ backgroundColor: "#ef5630" }}>
+          <TableHead style={{ backgroundColor: COLORS.SECONDARY }}>
             <TableRow>
               {headers.map((head) => (
                 <TableCell

@@ -101,22 +101,22 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
   return (
     <ContainerDiv>
       <CoinHeading>
-        <img style={{ maxWidth: "180px" }} src={cryptoDetail.iconUrl} />
+        <img style={{ maxWidth: "180px" }} src={cryptoDetail?.iconUrl} />
         <h2 style={{ margin: 10, fontSize: "30px" }}>
-          {cryptoDetail.name} ({cryptoDetail.symbol})
+          {cryptoDetail?.name} ({cryptoDetail?.symbol})
         </h2>
 
-        {HTMLReactParser(cryptoDetail.description.substring(0, 245))}
-        <Title>Rank: {cryptoDetail.rank}</Title>
-        <Title>Current Price: {millify(+cryptoDetail.price)}</Title>
-        <Title>Market Cap: {millify(+cryptoDetail.marketCap)}</Title>
+        {HTMLReactParser(cryptoDetail?.description.substring(0, 245))}
+        <Title>Rank: {cryptoDetail?.rank}</Title>
+        <Title>Current Price: {millify(+cryptoDetail?.price)}</Title>
+        <Title>Market Cap: {millify(+cryptoDetail?.marketCap)}</Title>
       </CoinHeading>
       <StyledDivider mode={mode} orientation="vertical" flexItem />
       <MainContainer>
         <LineChart
           coinHistory={coinHistory!}
-          currentPrice={millify(+cryptoDetail.price ?? 0)}
-          coinName={cryptoDetail.name}
+          currentPrice={millify(+cryptoDetail?.price ?? 0)}
+          coinName={cryptoDetail?.name}
         />
         <div
           style={{
