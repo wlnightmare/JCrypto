@@ -12,7 +12,7 @@ import Coins from "./pages/Coins";
 import { CryptoDetails } from "./components/CryptoDetails";
 
 import TopBar from "./components/TopBar";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "./hooks/redux-hooks";
 
 const StyledDiv = styled("div")`
   display: flex;
@@ -23,7 +23,7 @@ const StyledDiv = styled("div")`
 `;
 
 const App = () => {
-  const mode = useSelector((state: RootState) => state.mode.darkmode);
+  const mode = useAppSelector((state) => state.mode.darkmode);
 
   const className = "app " + (mode ? "dark-content" : "");
   return (
