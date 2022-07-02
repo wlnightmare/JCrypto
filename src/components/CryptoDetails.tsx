@@ -103,7 +103,7 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
           {cryptoDetail?.name}
           {cryptoDetail?.symbol}
         </h2>
-        {HTMLReactParser(cryptoDetail?.description.substring(0, 245))}
+        {HTMLReactParser(cryptoDetail?.description?.substring(0, 245))}
         <Title>Rank: {cryptoDetail?.rank}</Title>
         <Title>Current Price: {millify(+cryptoDetail?.price)}</Title>
         <Title>Market Cap: {millify(+cryptoDetail?.marketCap)}</Title>
