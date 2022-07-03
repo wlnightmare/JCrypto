@@ -1,28 +1,20 @@
-import {
-  MenuList,
-  MenuItem,
-  styled,
-  Button,
-  Typography,
-  Icon,
-} from "@mui/material";
-import { Box } from "@mui/material";
+import { MenuList, MenuItem, styled, Button, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-import { CurrencyExchange } from "@mui/icons-material";
+import { ModeType } from "../types";
 import HomeIcon from "@mui/icons-material/Home";
 import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { COLORS } from "../constants/color";
-import TopBar from "./TopBar";
 
-type Props = {};
+type Props = {
+  mode: boolean;
+};
 
 const StyledHeader = styled(Typography)`
-  color: ${COLORS.SECONDARY};
+  color: white;
 
   text-align: center;
   font-weight: bold;
@@ -32,23 +24,27 @@ const StyledHeader = styled(Typography)`
     display: none;
   }
 `;
-const StyledDiv = styled("div")`
+const StyledDiv = styled("div")<ModeType>`
   position: fixed;
-
   left: 0;
   height: 100vh;
-  background-color: ${COLORS.DETAILS};
+
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.DETAILS}` : `${COLORS.LIGHT}`};
   width: 15%;
   @media (max-width: 1000px) {
     width: 20%;
   }
+
   @media (max-width: 800px) {
+    background-color: transparent;
     height: 8vh;
     position: fixed;
     width: 100%;
     z-index: 100;
   }
 `;
+
 const StyledMenuItem = styled(MenuItem)`
   flex: 1 0 auto;
   &:hover {
@@ -63,15 +59,14 @@ const StyledMenuItem = styled(MenuItem)`
 const StyledButton = styled(Button)`
   text-decoration: none;
   font-size: 18px;
-  color: ${COLORS.SECONDARY};
+  color: white;
+  text-transform: none;
+  font-family: "Poppins", sans-serif;
   font-weight: bold;
   cursor: pointer;
   @media (max-width: 800px) {
-    color: ${COLORS.SECONDARY};
+    color: white;
   }
-
-  text-transform: none;
-  font-family: "Montserrat Alternates", sans-serif;
 `;
 const StyledMenuList = styled(MenuList)`
   position: absolute;
@@ -96,27 +91,28 @@ const MenuButton = styled(Button)`
 const navBarLinks = [
   {
     path: "/",
-    icon: <HomeIcon style={{ color: `${COLORS.SECONDARY}` }} />,
+    icon: <HomeIcon style={{ color: "white" }} />,
     name: "Home",
   },
   {
     path: "/news",
-    icon: <NewspaperIcon style={{ color: `${COLORS.SECONDARY}` }} />,
+    icon: <NewspaperIcon style={{ color: "white" }} />,
     name: "News",
   },
 
   {
     path: "/crypto",
-    icon: <CurrencyBitcoinIcon style={{ color: `${COLORS.SECONDARY}` }} />,
+    icon: <CurrencyBitcoinIcon style={{ color: "white" }} />,
     name: "Cryptocoins",
   },
 ];
 
-export const NavBar: FC<Props> = () => {
+export const NavBar: FC<Props> = ({ mode }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(0);
 
   const navigate = useNavigate();
+
   const handleClick = (path: string) => {
     navigate(path);
   };
@@ -139,10 +135,10 @@ export const NavBar: FC<Props> = () => {
   }, [screenSize]);
   return (
     <>
-      <StyledDiv>
+      <StyledDiv mode={mode}>
         <StyledHeader>JCrypto</StyledHeader>
         <MenuButton onClick={() => setActiveMenu(!activeMenu)}>
-          <MenuIcon style={{ color: "grey" }} />
+          <MenuIcon style={{ color: mode ? "white" : `${COLORS.LIGHT}` }} />
         </MenuButton>
         {activeMenu && (
           <StyledMenuList>
