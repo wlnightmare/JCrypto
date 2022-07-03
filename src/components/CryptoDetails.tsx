@@ -1,9 +1,12 @@
 import { Button, CircularProgress, Divider, styled } from "@mui/material";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
-import { FC, MouseEventHandler, useState } from "react";
+import { FC, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { RootState } from "../app/store";
 import { COLORS } from "../constants/color";
+import { numberWithCommas } from "../pages/Coins";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
@@ -18,8 +21,7 @@ const CoinHeading = styled("div")<ModeType>`
   flex-direction: column;
   width: 25%;
   float: left;
-  color: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
+  color: ${(props) => (props.mode ? `${COLORS.WHITE}` : `${COLORS.DETAILS}`)};
   margin-right: 10px;
   padding: 10px;
   font-weight: bold;
@@ -27,7 +29,10 @@ const CoinHeading = styled("div")<ModeType>`
   @media (max-width: 800px) {
     justify-content: center;
     width: 100%;
+    margin-left: -60px;
     align-items: center;
+  }
+  @media (max-width: 900px) {
   }
 `;
 const ContainerDiv = styled("div")`
@@ -70,7 +75,7 @@ const SelectButton = styled(Button)<ModeType>`
   font-family: "Montserrat Alternates", sans-serif;
   cursor: pointer;
   background-color: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   color: ${(props) => (props.mode ? `${COLORS.SECONDARY}` : "white")};
   &:hover {
     background-color: white;
@@ -79,7 +84,13 @@ const SelectButton = styled(Button)<ModeType>`
   }
   width: 22%;
 `;
+
+const CoinHeader = styled("h2")<ModeType>`
+  color: ${(props) => (props.mode ? `white` : "black")};
+`;
 const CryptoDetails: FC<Props> = ({ mode }) => {
+  const symbol = useSelector((state: RootState) => state.currency.symbol);
+  const currency = useSelector((state: RootState) => state.currency.currency);
   const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState<string>("7d");
   const { data } = useGetCryptoDetailsQuery(coinId);
@@ -98,15 +109,29 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
   return (
     <ContainerDiv>
       <CoinHeading mode={mode}>
-        <img style={{ maxWidth: "180px" }} src={cryptoDetail?.iconUrl} />
-        <h2 style={{ margin: 20, fontSize: "30px" }}>
+        <img
+          style={{ maxWidth: "180px" }}
+          src={cryptoDetail?.iconUrl}
+          alt="img"
+        />
+        <CoinHeader mode={mode} style={{ margin: 20, fontSize: "30px" }}>
           {cryptoDetail?.name}
+          &nbsp;
           {cryptoDetail?.symbol}
-        </h2>
+        </CoinHeader>
+
         {HTMLReactParser(cryptoDetail?.description.substring(0, 245))}
         <Title>Rank: {cryptoDetail?.rank}</Title>
-        <Title>Current Price: {millify(+cryptoDetail?.price)}</Title>
-        <Title>Market Cap: {millify(+cryptoDetail?.marketCap)}</Title>
+        <Title>
+          Current Price:
+          {symbol}&nbsp;
+          {millify(numberWithCommas(cryptoDetail.price, currency))}
+        </Title>
+        <Title>
+          Market Cap:
+          {symbol}&nbsp;
+          {millify(numberWithCommas(cryptoDetail.marketCap, currency))}
+        </Title>
       </CoinHeading>
       <StyledDivider mode={mode} orientation="vertical" flexItem />
 
