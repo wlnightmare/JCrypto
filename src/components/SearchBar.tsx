@@ -37,7 +37,7 @@ const SearchBar: FC<Props> = ({ setSearchTerm }) => {
               </InputAdornment>
             ),
           }}
-          placeholder="search coins..."
+          placeholder="Search coins..."
         />
       </InputContainer>
     </>
