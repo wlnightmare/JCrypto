@@ -98,3 +98,7 @@ export type LineChartProps = {
   coinName?: string;
   mode: boolean;
 };
+export type NavbarType = {
+  mode: boolean;
+  location: string;
+};
