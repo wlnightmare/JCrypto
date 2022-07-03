@@ -32,7 +32,7 @@ const App = () => {
         <TopBar />
         <StyledDiv>
           <div className="nav">
-            <NavBar />
+            <NavBar mode={mode} />
           </div>
 
           <div className="main">
