@@ -7,10 +7,14 @@ import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { getFormFieldState } from "../util/getFormFieldState";
 import { validateEmail, validatePassword } from "../util/validateFormInputs";
-import { modalStyle } from "../constants/formStyle";
 import { AuthProp, FormValues } from "../types";
+import {
+  CustomBox,
+  StyledLine,
+  StyledSubmitButton,
+} from "../constants/formStyle";
 
-export const SignUp: FC<AuthProp> = ({ handleClose }) => {
+export const SignUp: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
   const dispatch = useAppDispatch();
   const { handleSubmit, reset, control } = useForm<FormValues>({
     mode: "onChange",
@@ -31,14 +35,15 @@ export const SignUp: FC<AuthProp> = ({ handleClose }) => {
             token: user.refreshToken,
           })
         );
+        handleClose();
         reset();
       })
       .catch(() => alert("Invalid user!"));
   };
 
   return (
-    <Box sx={modalStyle}>
-      <Typography variant="h5">Complete Form</Typography>
+    <CustomBox>
+      <Typography variant="h5">Complete Sign Up Form</Typography>
       <form
         style={{ marginTop: "10px" }}
         onSubmit={handleSubmit(handleRegister)}
@@ -48,7 +53,7 @@ export const SignUp: FC<AuthProp> = ({ handleClose }) => {
             name="email"
             control={control}
             rules={{
-              required: false,
+              required: true,
               validate: (value: string) => {
                 if (validateEmail(value)) {
                   return true;
@@ -59,7 +64,7 @@ export const SignUp: FC<AuthProp> = ({ handleClose }) => {
             }}
             render={({ field, fieldState, formState }) => (
               <TextField
-                id="outlined-basic"
+                id="signUp email"
                 label="email"
                 variant="outlined"
                 {...getFormFieldState(formState, fieldState)}
@@ -74,33 +79,35 @@ export const SignUp: FC<AuthProp> = ({ handleClose }) => {
             name="password"
             control={control}
             rules={{
-              required: false,
+              required: true,
               validate: (value: string) => {
                 if (validatePassword(value)) {
                   return true;
                 } else {
-                  return "Minimal 8 charaters";
+                  return "At least one upper case, lower case, digit must be and min 8";
                 }
               },
             }}
             render={({ field, formState, fieldState }) => (
               <TextField
-                id="outlined-basic"
+                id="signUp password"
                 label="password"
                 variant="outlined"
+                type="password"
                 {...getFormFieldState(formState, fieldState)}
                 {...field}
               />
             )}
           />
         </FormControl>
-        <Button variant="contained" type="submit" onClick={handleClose}>
+        <StyledSubmitButton variant="contained" type="submit">
           Sign Up
-        </Button>
+        </StyledSubmitButton>
       </form>
-      <p>
-        Already have an account? <Button>Login</Button>
-      </p>
-    </Box>
+      <StyledLine>
+        Already have an account?
+        <Button onClick={handleChangeForm}>Login</Button>
+      </StyledLine>
+    </CustomBox>
   );
 };
