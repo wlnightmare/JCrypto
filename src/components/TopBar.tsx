@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../app/modalSlice";
 import { setDarkTheme, setDefaultTheme } from "../app/themeSlice";
 import { setCurrency } from "../app/symbolSlice";
-import { Button, Container, NativeSelect, styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
 import { ModeType } from "../types";
 import { COLORS } from "../constants/color";
 import { RootState } from "../app/store";
@@ -16,48 +16,45 @@ const StyledButton = styled(Button)`
   position: fixed;
   z-index: 1000;
   top: 10px;
-  right: 3%;
+  right: 5%;
+  margin-right: -16px;
+
   color: orange;
 `;
-const StyledSelect = styled(NativeSelect)<ModeType>`
+const StyledSelect = styled("select")<ModeType>`
   position: fixed;
-  color: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
-  background-color: transparent;
-  z-index: 1000;
+  font-family: "Poppins", sans-serif;
 
-  top: 15px;
+  border: 0;
+  color: ${(props) => (props.mode ? "black" : `white`)};
+
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
+  z-index: 1000;
+  border-radius: 4px;
+  top: 8px;
   right: 13%;
   width: 100px;
-  height: 30px;
-
-  @media (max-width: 800px) {
-    right: 15%;
-  }
-  @media (max-width: 700px) {
-    right: 18%;
-  }
-  @media (max-width: 600px) {
-    right: 21%;
-  }
+  height: 36px;
 `;
 const OpenModalButton = styled(Button)<ModeType>`
   position: fixed;
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   border: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
-  color: ${(props) =>
-    props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.SECONDARY}`};
+  color: ${(props) => (props.mode ? "black" : `white`)};
   font-family: "Poppins", sans-serif;
   font-weight: bold;
   z-index: 1000;
   top: 9px;
   right: 8%;
-  @media (max-width: 700px) {
-    right: 10%;
-    color: ${COLORS.SECONDARY};
-  }
 `;
 
+const ContainerDiv = styled("div")`
+  display: flex;
+  flex-direction: row;
+`;
 const TopBar = () => {
   const pathname = useLocation().pathname;
 
@@ -84,30 +81,32 @@ const TopBar = () => {
   };
   return (
     <>
-      {pathname !== "/news" ? (
-        <StyledSelect
-          onChange={(e) => handleChange(e)}
-          value={currency}
-          mode={mode}
-        >
-          <option value={"USD"}>USD</option>
-          <option value={"KZT"}>KZT</option>
-        </StyledSelect>
-      ) : null}
+      <ContainerDiv>
+        {pathname !== "/news" ? (
+          <StyledSelect
+            onChange={(e) => handleChange(e)}
+            value={currency}
+            mode={mode}
+          >
+            <option value={"USD"}>USD</option>
+            <option value={"KZT"}>KZT</option>
+          </StyledSelect>
+        ) : null}
 
-      <OpenModalButton mode={mode} onClick={handleClick}>
-        Sign in
-      </OpenModalButton>
-      {open && <RegisterModal open={open} />}
-      {!mode ? (
-        <StyledButton onClick={setDark}>
-          <Brightness3Icon />
-        </StyledButton>
-      ) : (
-        <StyledButton onClick={setDefault}>
-          <LightModeIcon />
-        </StyledButton>
-      )}
+        <OpenModalButton mode={mode} onClick={handleClick}>
+          Sign in
+        </OpenModalButton>
+        {open && <RegisterModal open={open} />}
+        {!mode ? (
+          <StyledButton onClick={setDark}>
+            <Brightness3Icon />
+          </StyledButton>
+        ) : (
+          <StyledButton onClick={setDefault}>
+            <LightModeIcon />
+          </StyledButton>
+        )}
+      </ContainerDiv>
     </>
   );
 };
