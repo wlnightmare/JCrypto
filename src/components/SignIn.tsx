@@ -3,13 +3,27 @@ import { setUser } from "../app/userSlice";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { FC } from "react";
 import { AuthProp, FormValues } from "../types";
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { getFormFieldState } from "../util/getFormFieldState";
 import { validateEmail, validatePassword } from "../util/validateFormInputs";
-import { modalStyle } from "../constants/formStyle";
+import {
+  StyledLine,
+  CustomBox,
+  StyledSubmitButton,
+} from "../constants/formStyle";
 
-export const SignIn: FC<AuthProp> = ({ handleClose }) => {
+const StyledButton = styled(Button)`
+  text-transform: none;
+`;
+export const SignIn: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
   const dispatch = useAppDispatch();
   const { handleSubmit, reset, control } = useForm<FormValues>({
     mode: "onChange",
@@ -30,20 +44,23 @@ export const SignIn: FC<AuthProp> = ({ handleClose }) => {
           })
         );
         reset();
+        handleClose();
       })
       .catch(() => alert("Invalid user!"));
   };
 
   return (
-    <Box sx={modalStyle}>
-      <Typography variant="h5">Complete Form</Typography>
+    <CustomBox>
+      <Typography variant="h5" textAlign="center">
+        Complete Sign In Form
+      </Typography>
       <form style={{ marginTop: "10px" }} onSubmit={handleSubmit(handleLogin)}>
         <FormControl fullWidth sx={{ mb: 2 }} required>
           <Controller
             name="email"
             control={control}
             rules={{
-              required: false,
+              required: true,
               validate: (value: string) => {
                 if (validateEmail(value)) {
                   return true;
@@ -54,7 +71,7 @@ export const SignIn: FC<AuthProp> = ({ handleClose }) => {
             }}
             render={({ field, fieldState, formState }) => (
               <TextField
-                id="outlined-basic"
+                id="signIn email"
                 label="email"
                 variant="outlined"
                 {...getFormFieldState(formState, fieldState)}
@@ -63,39 +80,40 @@ export const SignIn: FC<AuthProp> = ({ handleClose }) => {
             )}
           />
         </FormControl>
-
         <FormControl fullWidth sx={{ mb: 2 }} required>
           <Controller
             name="password"
             control={control}
             rules={{
-              required: false,
+              required: true,
               validate: (value: string) => {
                 if (validatePassword(value)) {
                   return true;
                 } else {
-                  return "Minimal 8 charaters";
+                  return "Incorrect password";
                 }
               },
             }}
             render={({ field, formState, fieldState }) => (
               <TextField
-                id="outlined-basic"
+                id="signIn password"
                 label="password"
                 variant="outlined"
+                type="password"
                 {...getFormFieldState(formState, fieldState)}
                 {...field}
               />
             )}
           />
         </FormControl>
-        <Button variant="contained" type="submit" onClick={handleClose}>
+        <StyledSubmitButton variant="contained" type="submit">
           Sign In
-        </Button>
+        </StyledSubmitButton>
       </form>
-      <p>
-        Don't have an account? <Button>Register</Button>
-      </p>
-    </Box>
+      <StyledLine>
+        Don't have an account?
+        <StyledButton onClick={handleChangeForm}>Register</StyledButton>
+      </StyledLine>
+    </CustomBox>
   );
 };
