@@ -3,13 +3,10 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import { COLORS } from "../constants/color";
 import { useAppSelector } from "../hooks/redux-hooks";
-import { ModeType } from "../types";
+import { NavbarType } from "../types";
+
 import SearchIcon from "./SearchIcon";
 
-type NavbarType = {
-  mode: boolean;
-  location: string;
-};
 const InputContainer = styled("div")`
   width: 100%;
   margin-top: 50px;
@@ -43,7 +40,6 @@ const SearchBar: FC<Props> = ({ setSearchTerm }) => {
             style: {
               paddingLeft: 10,
             },
-
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
