@@ -1,11 +1,8 @@
-import { Box, Card, CircularProgress, Grid, styled } from "@mui/material";
+import { Box, Card, CircularProgress, styled } from "@mui/material";
 import moment from "moment";
-
-import React, { FC, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import { COLORS } from "../constants/color";
-
 import { useGetCryptoNewsQuery } from "../services/cryptoNews";
 import { ModeType, NewsType } from "../types";
 

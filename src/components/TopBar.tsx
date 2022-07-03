@@ -85,13 +85,7 @@ const TopBar = () => {
   const handleMode = () => {
     dispatch(toggleTheme());
   };
-  // const setDark = () => {
-  //   dispatch(setDarkTheme());
-  // };
 
-  // const setDefault = () => {
-  //   dispatch(setDefaultTheme());
-  // };
   const handleLogOut = () => {
     auth
       .signOut()

@@ -9,10 +9,6 @@ import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import { COLORS } from "../constants/color";
 
-type Props = {
-  mode: boolean;
-};
-
 const StyledHeader = styled(Typography)<ModeType>`
   color: ${COLORS.WHITE};
   cursor: pointer;
@@ -107,7 +103,7 @@ const navBarLinks = [
   },
 ];
 
-export const NavBar: FC<Props> = ({ mode }) => {
+export const NavBar: FC<ModeType> = ({ mode }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(0);
 

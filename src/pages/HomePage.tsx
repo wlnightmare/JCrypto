@@ -9,10 +9,7 @@ import Coins from "./Coins";
 import { ModeType } from "../types";
 import { COLORS } from "../constants/color";
 import { titles } from "../constants/mockData";
-
-type Props = {
-  mode: boolean;
-};
+import { FC } from "react";
 
 const Header = styled("h2")<ModeType>`
   margin: 15px auto;
@@ -70,7 +67,7 @@ const StyledHeader = styled("h1")<ModeType>`
   }
 `;
 
-export const HomePage = (props: Props) => {
+export const HomePage: FC<ModeType> = ({ mode }) => {
   const { data } = useGetCryptosQuery(10);
 
   const globalStats = data?.data?.stats;
@@ -79,7 +76,7 @@ export const HomePage = (props: Props) => {
 
   return (
     <>
-      <StyledHeader mode={props.mode}>Global Crypto Stats</StyledHeader>
+      <StyledHeader mode={mode}>Global Crypto Stats</StyledHeader>
 
       <Grid
         container
@@ -87,30 +84,29 @@ export const HomePage = (props: Props) => {
         columns={{ xs: 2, sm: 3, md: 14 }}
       >
         {titles.map((title) => (
-          <StyledGridItem key={title.header} mode={props.mode} item xs={5}>
+          <StyledGridItem key={title.header} mode={mode} item xs={5}>
             <h3>{title.header}</h3>
             <p>{millify(+globalStats[title.key])}</p>
           </StyledGridItem>
         ))}
       </Grid>
-      <StyledDivider mode={props.mode} />
+      <StyledDivider mode={mode} />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Header mode={props.mode}>Top 10 Cryptocurrencies in the world</Header>
+        <Header mode={mode}>Top 10 Cryptocurrencies in the world</Header>
         <StyledLink to="/crypto">
-          <StyledTitle mode={props.mode}>Show more</StyledTitle>
-          <ShowIcon mode={props.mode}> ↓</ShowIcon>
+          <StyledTitle mode={mode}>Show more</StyledTitle>
+          <ShowIcon mode={mode}> ↓</ShowIcon>
         </StyledLink>
       </div>
-      <Coins mode={props.mode} simplified />
+      <Coins mode={mode} simplified />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Header mode={props.mode}>Latest Crypto News</Header>
-
+        <Header mode={mode}>Latest Crypto News</Header>
         <StyledLink to="/news">
-          <StyledTitle mode={props.mode}>Show more</StyledTitle>
-          <ShowIcon mode={props.mode}> ↓</ShowIcon>
+          <StyledTitle mode={mode}>Show more</StyledTitle>
+          <ShowIcon mode={mode}> ↓</ShowIcon>
         </StyledLink>
       </div>
-      <News mode={props.mode} simplified />
+      <News mode={mode} simplified />
     </>
   );
 };

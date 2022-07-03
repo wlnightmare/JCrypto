@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { FC } from "react";
 import { AuthProp, FormValues } from "../types";
 import {
-  Box,
   Button,
   FormControl,
   styled,
