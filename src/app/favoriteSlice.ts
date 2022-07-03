@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 import { FavoriteStore } from "../types";
 
 const initialState: FavoriteStore = {

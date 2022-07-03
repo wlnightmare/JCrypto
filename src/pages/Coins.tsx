@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import millify from "millify";
 import { FC, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -21,7 +20,8 @@ import { COLORS } from "../constants/color";
 import { useGetCryptosQuery } from "../services/api";
 import { Currency, ModeType } from "../types";
 import { addToCart } from "../app/favoriteSlice";
-import { setData, toggledone, toggleundone } from "../app/coins.Slice";
+import { setData, toggledone, toggleundone } from "../app/coinsSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 
 type Props = {
   simplified?: boolean;
@@ -53,13 +53,13 @@ const TableHeadTitle = styled(TableCell)<ModeType>`
 const Coins: FC<Props> = ({ simplified, mode }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const count = simplified ? 10 : 50;
-  const symbol = useSelector((state: RootState) => state.currency.symbol);
-  const currency = useSelector((state: RootState) => state.currency.currency);
+  const symbol = useAppSelector((state) => state.currency.symbol);
+  const currency = useAppSelector((state) => state.currency.currency);
 
-  const cryptos = useSelector((state: RootState) => state.coins.coins);
+  const cryptos = useAppSelector((state) => state.coins.coins);
   const [isClicked, setIsClicked] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 

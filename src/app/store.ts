@@ -6,7 +6,7 @@ import currencySymbol from "./symbolSlice";
 import userSlice from "./userSlice";
 import modalSlice from "./modalSlice";
 import favoriteSlice from "./favoriteSlice";
-import coinsSlice from "./coins.Slice";
+import coinsSlice from "./coinsSlice";
 
 const store = configureStore({
   reducer: {

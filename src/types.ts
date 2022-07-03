@@ -92,3 +92,9 @@ export type FormValues = {
 export type ModalOpenClose = {
   open: boolean;
 };
+export type LineChartProps = {
+  coinHistory: ICoinHistoryResult;
+  currentPrice?: string;
+  coinName?: string;
+  mode: boolean;
+};

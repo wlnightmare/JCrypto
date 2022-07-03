@@ -2,11 +2,10 @@ import { Button, CircularProgress, Divider, styled } from "@mui/material";
 import HTMLReactParser from "html-react-parser";
 import millify from "millify";
 import { FC, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { RootState } from "../app/store";
 import { COLORS } from "../constants/color";
 import { time } from "../constants/mockData";
+import { useAppSelector } from "../hooks/redux-hooks";
 import { numberWithCommas } from "../pages/Coins";
 import {
   useGetCryptoDetailsQuery,
@@ -103,8 +102,8 @@ const CoinHeader = styled("h3")<ModeType>`
   }
 `;
 const CryptoDetails: FC<ModeType> = ({ mode }) => {
-  const symbol = useSelector((state: RootState) => state.currency.symbol);
-  const currency = useSelector((state: RootState) => state.currency.currency);
+  const symbol = useAppSelector((state) => state.currency.symbol);
+  const currency = useAppSelector((state) => state.currency.currency);
   const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState<string>("24h");
   const { data } = useGetCryptoDetailsQuery(coinId);

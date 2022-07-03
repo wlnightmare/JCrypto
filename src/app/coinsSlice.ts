@@ -13,7 +13,7 @@ const coinSlice = createSlice({
     setData(state, action) {
       state.coins = action.payload;
 
-      const mapped = state?.coins.map((element: Currency) => ({
+      const mapped = state?.coins?.map((element: Currency) => ({
         ...element,
         done: false,
       }));

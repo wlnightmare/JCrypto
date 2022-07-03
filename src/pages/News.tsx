@@ -55,9 +55,6 @@ const News: FC<Props> = ({ simplified, mode }) => {
     setNews(filteredData);
   }, [cryptoNews, searchTermofNews]);
 
-  const demoNews =
-    "https://www.bing.com/th?id=OVFT.mpzuVZnv8dwIMRfQGPbOPC&pid=News";
-
   if (!cryptoNews?.value) return <CircularProgress />;
   return (
     <>
@@ -72,13 +69,16 @@ const News: FC<Props> = ({ simplified, mode }) => {
               }}
             >
               <h3>{news?.name}</h3>
-              <StyledImg src={news?.image?.thumbnail?.contentUrl || demoNews} />
+              <StyledImg
+                src={news?.image?.thumbnail?.contentUrl}
+                alt={news?.name.substring(0, 10)}
+              />
             </Box>
             <p>{news?.description}</p>
 
             <div>
               <StyledIcon
-                src={news.provider[0]?.image?.thumbnail?.contentUrl || demoNews}
+                src={news.provider[0]?.image?.thumbnail?.contentUrl}
                 alt=""
               />
               <div

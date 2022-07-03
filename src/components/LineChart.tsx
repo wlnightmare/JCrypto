@@ -1,20 +1,12 @@
-import React, { FC } from "react";
-import { ICoinHistoryResult, ModeType } from "../types";
+import { FC } from "react";
+import { LineChartProps, ModeType } from "../types";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { COLORS } from "../constants/color";
-
 import { styled } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { useAppSelector } from "../hooks/redux-hooks";
 
 ChartJS.register(...registerables);
-type LineChartProps = {
-  coinHistory: ICoinHistoryResult;
-  currentPrice?: string;
-  coinName?: string;
-  mode: boolean;
-};
 
 const StyledLine = styled(Line)<ModeType>`
   background-color: ${(props) => (props.mode ? "transparent" : "")};
@@ -31,7 +23,7 @@ export const LineChart: FC<LineChartProps> = ({
 }) => {
   const coinPrice: string[] = [];
   const coinTimestamp: string[] = [];
-  const currency = useSelector((state: RootState) => state.currency.currency);
+  const currency = useAppSelector((state) => state.currency.currency);
 
   for (let i = 0; i < coinHistory?.history.length!; i += 1) {
     coinPrice.push(coinHistory?.history[i].price);
