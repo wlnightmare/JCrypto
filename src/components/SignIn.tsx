@@ -19,9 +19,11 @@ import {
   StyledSubmitButton,
   StyledButton,
 } from "../constants/formStyle";
+import { useNavigate } from "react-router-dom";
 
 export const SignIn: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const mode = useAppSelector((state) => state.mode.darkmode);
   const { handleSubmit, reset, control } = useForm<FormValues>({
     mode: "onChange",
@@ -43,6 +45,7 @@ export const SignIn: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
         );
         reset();
         handleClose();
+        navigate("/");
       })
       .catch(() => alert("Invalid user!"));
   };
