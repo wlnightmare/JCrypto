@@ -24,7 +24,7 @@ const StyledButton = styled(Button)`
   color: orange;
 `;
 const StyledSelect = styled("select")<ModeType>`
-  position: fixed;
+  position: absolute;
   font-family: "Poppins", sans-serif;
 
   border: 0;
@@ -36,11 +36,11 @@ const StyledSelect = styled("select")<ModeType>`
   border-radius: 4px;
   top: 8px;
   right: 13%;
-  width: 100px;
+  width: 80px;
   height: 36px;
 `;
 const OpenModalButton = styled(Button)<ModeType>`
-  position: fixed;
+  position: absolute;
   background-color: ${(props) =>
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   border: ${(props) =>
