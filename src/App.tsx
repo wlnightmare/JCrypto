@@ -3,14 +3,9 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import News from "./pages/News";
-
 import { styled } from "@mui/material";
-
-import { RootState } from "./app/store";
-
 import Coins from "./pages/Coins";
 import { CryptoDetails } from "./components/CryptoDetails";
-
 import TopBar from "./components/TopBar";
 import { useAppSelector } from "./hooks/redux-hooks";
 

@@ -99,7 +99,6 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
           </StyledTableHead>
           <TableBody>
             {cryptos?.map((coins: Currency) => {
-              console.log(coins);
               return (
                 <TableRow key={coins.uuid}>
                   <CoinTableCell

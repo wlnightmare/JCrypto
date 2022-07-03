@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Currency } from "../types";
 
-export {};
-
 const initialState = {
   coins:
     JSON.parse(localStorage.getItem("coins") || "[]") || ([] as Currency[]),

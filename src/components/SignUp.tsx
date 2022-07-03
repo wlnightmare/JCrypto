@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, auth } from "../firebase";
 import { setUser } from "../app/userSlice";
 import { useAppDispatch } from "../hooks/redux-hooks";
 import { FC } from "react";
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import { Button, FormControl, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { getFormFieldState } from "../util/getFormFieldState";
 import { validateEmail, validatePassword } from "../util/validateFormInputs";
