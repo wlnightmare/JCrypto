@@ -4,6 +4,7 @@ export const validateEmail = (str: string): string => {
 };
 
 export const validatePassword = (str: string): string => {
-  const name = str.match(/\S+/)?.join("") ?? "";
+  const name =
+    str.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)?.join("") ?? "";
   return name;
 };
