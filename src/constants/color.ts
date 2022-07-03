@@ -1,6 +1,9 @@
 export enum COLORS {
-  MAIN = "#5CDB95",
-  SECONDARY = "#05386B",
-  DETAILS = "#85dcba",
+  HEADER = "#FFBD1F",
+  SECONDARY = "black",
+  DETAILS = "#73706f",
   WHITE = "#EDF5E1",
+  LIGHT = "#7251b2",
+  TITLE = "#e5e4e2",
+  MAIN = "#f5f5f5",
 }
