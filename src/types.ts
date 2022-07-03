@@ -76,7 +76,10 @@ export type ModeType = {
 export interface ThemeStore {
   darkmode: boolean;
 }
-export type AuthProp = { handleClose: () => void };
+export type AuthProp = {
+  handleClose: () => void;
+  handleChangeForm: () => void;
+};
 export type FormValues = {
   email: string;
   password: string;
