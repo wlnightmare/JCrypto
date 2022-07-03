@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { setOpen } from "../app/modalSlice";
 import { setDarkTheme, setDefaultTheme } from "../app/themeSlice";
 import { setCurrency } from "../app/symbolSlice";
-import { Button, Container, NativeSelect, styled } from "@mui/material";
+import { Button, NativeSelect, styled } from "@mui/material";
 import { ModeType } from "../types";
 import { COLORS } from "../constants/color";
 import { AuthModal } from "./AuthModal";
@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { removeUser, setUser } from "../app/userSlice";
 import { auth, onAuthStateChanged } from "../firebase";
 import { ChangeEvent, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const StyledButton = styled(Button)`
   position: absolute;
@@ -26,12 +27,10 @@ const StyledSelect = styled(NativeSelect)<ModeType>`
     props.mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`};
   background-color: transparent;
   z-index: 1000;
-
   top: 15px;
   right: 13%;
-  width: 100px;
+  width: 70px;
   height: 30px;
-
   @media (max-width: 800px) {
     right: 15%;
   }
@@ -62,7 +61,7 @@ const OpenModalButton = styled(Button)<ModeType>`
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
+  const { isAuth } = useAuth();
   const mode = useAppSelector((state) => state.mode.darkmode);
   const open = useAppSelector((state) => state.modal.open);
   const currency = useAppSelector((state) => state.currency.currency);
@@ -81,7 +80,7 @@ const TopBar = () => {
       }
     });
     return () => unSubcribe();
-  }, [auth]);
+  }, [dispatch]);
   const handleClick = () => {
     dispatch(setOpen());
   };
@@ -116,7 +115,7 @@ const TopBar = () => {
         </StyledSelect>
       ) : null}
 
-      {!user ? (
+      {isAuth ? (
         <OpenModalButton mode={mode} onClick={handleLogOut}>
           Logout
         </OpenModalButton>
