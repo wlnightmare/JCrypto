@@ -5,6 +5,8 @@ import themeSlice from "./themeSlice";
 import currencySymbol from "./symbolSlice";
 import userSlice from "./userSlice";
 import modalSlice from "./modalSlice";
+import favoriteSlice from "./favoriteSlice";
+import coinsSlice from "./coins.Slice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     currency: currencySymbol,
     user: userSlice,
     modal: modalSlice,
+    wishlist: favoriteSlice,
+    coins: coinsSlice,
   },
 });
 export default store;
