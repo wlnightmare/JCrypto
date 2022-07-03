@@ -2,7 +2,6 @@ import { InputAdornment, styled, TextField } from "@mui/material";
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import SearchIcon from "./SearchIcon";
-import { COLORS } from "../constants/color";
 
 const InputContainer = styled("div")`
   width: 100%;

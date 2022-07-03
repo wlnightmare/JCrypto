@@ -19,6 +19,10 @@ const store = configureStore({
     wishlist: favoriteSlice,
     coins: coinsSlice,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware()
+      .concat(cryptoApi.middleware)
+      .concat(cryptoNewsApi.middleware),
 });
 export default store;
 export type AppDispatch = typeof store.dispatch;

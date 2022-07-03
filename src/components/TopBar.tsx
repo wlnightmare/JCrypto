@@ -1,19 +1,21 @@
-import React from "react";
 import Brightness3Icon from "@mui/icons-material/Brightness3";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../app/modalSlice";
 import { setDarkTheme, setDefaultTheme } from "../app/themeSlice";
 import { setCurrency } from "../app/symbolSlice";
 import { Button, styled } from "@mui/material";
 import { ModeType } from "../types";
 import { COLORS } from "../constants/color";
-import { RootState } from "../app/store";
-import RegisterModal from "./Modal";
+import { AuthModal } from "./AuthModal";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import { removeUser, setUser } from "../app/userSlice";
+import { auth, onAuthStateChanged } from "../firebase";
+import { ChangeEvent, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const StyledButton = styled(Button)`
-  position: fixed;
+  position: absolute;
   z-index: 1000;
   top: 10px;
   right: 5%;
@@ -51,18 +53,29 @@ const OpenModalButton = styled(Button)<ModeType>`
   right: 8%;
 `;
 
-const ContainerDiv = styled("div")`
-  display: flex;
-  flex-direction: row;
-`;
 const TopBar = () => {
   const pathname = useLocation().pathname;
-
-  const dispatch = useDispatch();
-  const mode = useSelector((state: RootState) => state.mode.darkmode);
-  const open = useSelector((state: RootState) => state.modal.open);
-  const currency = useSelector((state: RootState) => state.currency.currency);
-
+  const dispatch = useAppDispatch();
+  const { isAuth } = useAuth();
+  const mode = useAppSelector((state) => state.mode.darkmode);
+  const open = useAppSelector((state) => state.modal.open);
+  const currency = useAppSelector((state) => state.currency.currency);
+  useEffect(() => {
+    const unSubcribe = onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        dispatch(
+          setUser({
+            email: userAuth.email,
+            id: userAuth.uid,
+            token: userAuth.refreshToken,
+          })
+        );
+      } else {
+        dispatch(removeUser());
+      }
+    });
+    return () => unSubcribe();
+  }, [dispatch]);
   const handleClick = () => {
     dispatch(setOpen());
   };
@@ -74,39 +87,48 @@ const TopBar = () => {
   const setDefault = () => {
     dispatch(setDefaultTheme());
   };
-  const handleChange = (event: any) => {
+  const handleLogOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(removeUser());
+      })
+      .catch((err) => alert(err.message));
+  };
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (typeof event.target.value === "string") {
       dispatch(setCurrency(event.target.value));
     }
   };
+
   return (
     <>
-      <ContainerDiv>
-        {pathname !== "/news" ? (
-          <StyledSelect
-            onChange={(e) => handleChange(e)}
-            value={currency}
-            mode={mode}
-          >
-            <option value={"USD"}>USD</option>
-            <option value={"KZT"}>KZT</option>
-          </StyledSelect>
-        ) : null}
+      {pathname !== "/news" ? (
+        <StyledSelect onChange={handleChange} value={currency} mode={mode}>
+          <option value={"USD"}>USD</option>
+          <option value={"KZT"}>KZT</option>
+        </StyledSelect>
+      ) : null}
 
-        <OpenModalButton mode={mode} onClick={handleClick}>
-          Sign in
+      {isAuth ? (
+        <OpenModalButton mode={mode} onClick={handleLogOut}>
+          Logout
         </OpenModalButton>
-        {open && <RegisterModal open={open} />}
-        {!mode ? (
-          <StyledButton onClick={setDark}>
-            <Brightness3Icon />
-          </StyledButton>
-        ) : (
-          <StyledButton onClick={setDefault}>
-            <LightModeIcon />
-          </StyledButton>
-        )}
-      </ContainerDiv>
+      ) : (
+        <OpenModalButton mode={mode} onClick={handleClick}>
+          <div>Login {open && <AuthModal open={open} />}</div>
+        </OpenModalButton>
+      )}
+
+      {!mode ? (
+        <StyledButton onClick={setDark}>
+          <Brightness3Icon />
+        </StyledButton>
+      ) : (
+        <StyledButton onClick={setDefault}>
+          <LightModeIcon />
+        </StyledButton>
+      )}
     </>
   );
 };

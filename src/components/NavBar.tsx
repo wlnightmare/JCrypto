@@ -13,9 +13,9 @@ type Props = {
   mode: boolean;
 };
 
-const StyledHeader = styled(Typography)`
-  color: white;
-
+const StyledHeader = styled(Typography)<ModeType>`
+  color: ${COLORS.WHITE};
+  cursor: pointer;
   text-align: center;
   font-weight: bold;
   font-size: 20px;
@@ -28,12 +28,11 @@ const StyledDiv = styled("div")<ModeType>`
   position: fixed;
   left: 0;
   height: 100vh;
-
   background-color: ${(props) =>
     props.mode ? `${COLORS.DETAILS}` : `${COLORS.LIGHT}`};
   width: 15%;
   @media (max-width: 1000px) {
-    width: 20%;
+    width: 22%;
   }
 
   @media (max-width: 800px) {
@@ -136,7 +135,9 @@ export const NavBar: FC<Props> = ({ mode }) => {
   return (
     <>
       <StyledDiv mode={mode}>
-        <StyledHeader>JCrypto</StyledHeader>
+        <StyledHeader mode={mode} onClick={() => navigate("/")}>
+          JCrypto
+        </StyledHeader>
         <MenuButton onClick={() => setActiveMenu(!activeMenu)}>
           <MenuIcon style={{ color: mode ? "white" : `${COLORS.LIGHT}` }} />
         </MenuButton>

@@ -81,3 +81,14 @@ export interface ThemeStore {
 export interface FavoriteStore {
   wishlist: Currency[];
 }
+export type AuthProp = {
+  handleClose: () => void;
+  handleChangeForm: () => void;
+};
+export type FormValues = {
+  email: string;
+  password: string;
+};
+export type ModalOpenClose = {
+  open: boolean;
+};

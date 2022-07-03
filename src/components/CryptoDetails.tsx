@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState } from "../app/store";
 import { COLORS } from "../constants/color";
+import { time } from "../constants/mockData";
 import { numberWithCommas } from "../pages/Coins";
 import {
   useGetCryptoDetailsQuery,
@@ -13,8 +14,6 @@ import {
 } from "../services/api";
 import { Currency, ModeType } from "../types";
 import { LineChart } from "./LineChart";
-
-type Props = { mode: boolean };
 
 const CoinHeading = styled("div")<ModeType>`
   display: flex;
@@ -64,9 +63,16 @@ const StyledDivider = styled(Divider)<ModeType>`
     display: none;
   }
 `;
+const ButtonContainer = styled("div")`
+  margin-top: 20;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 10px;
+`;
 
 const SelectButton = styled(Button)<ModeType>`
-  border: 2px solid white;
+  border: 2px solid #ef5630;
   border-radius: 5;
   padding: 10;
   padding-left: 20;
@@ -78,8 +84,8 @@ const SelectButton = styled(Button)<ModeType>`
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   color: ${(props) => (props.mode ? `${COLORS.SECONDARY}` : "white")};
   &:hover {
-    background-color: white;
-    border: 2px solid ${COLORS.DETAILS};
+    background-color: "#ef5630";
+    border: 2px solid #ef5630;
     color: black;
   }
   width: 22%;
@@ -88,11 +94,11 @@ const SelectButton = styled(Button)<ModeType>`
 const CoinHeader = styled("h2")<ModeType>`
   color: ${(props) => (props.mode ? `white` : "black")};
 `;
-const CryptoDetails: FC<Props> = ({ mode }) => {
+const CryptoDetails: FC<ModeType> = ({ mode }) => {
   const symbol = useSelector((state: RootState) => state.currency.symbol);
   const currency = useSelector((state: RootState) => state.currency.currency);
   const { coinId } = useParams();
-  const [timeperiod, setTimeperiod] = useState<string>("7d");
+  const [timeperiod, setTimeperiod] = useState<string>("24h");
   const { data } = useGetCryptoDetailsQuery(coinId);
   const { data: dataHistory } = useGetCryptoHistoryQuery({
     coinId,
@@ -102,8 +108,6 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
   const cryptoDetail: Currency = data?.data?.coin;
   const coinHistory = dataHistory?.data;
 
-  const time = ["24h", "7d", "30d", "1y"];
-
   if (!cryptoDetail && !coinHistory) return <CircularProgress />;
 
   return (
@@ -111,8 +115,8 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
       <CoinHeading mode={mode}>
         <img
           style={{ maxWidth: "180px" }}
+          alt={cryptoDetail?.name}
           src={cryptoDetail?.iconUrl}
-          alt="img"
         />
         <CoinHeader mode={mode} style={{ margin: 20, fontSize: "30px" }}>
           {cryptoDetail?.name}
@@ -142,21 +146,17 @@ const CryptoDetails: FC<Props> = ({ mode }) => {
           currentPrice={millify(+cryptoDetail?.price ?? 0)}
           coinName={cryptoDetail?.name}
         />
-        <div
-          style={{
-            marginTop: 20,
-            display: "flex",
-            justifyContent: "space-around",
-            width: "100%",
-            gap: "10px",
-          }}
-        >
+        <ButtonContainer>
           {time.map((day) => (
-            <SelectButton mode={mode} onClick={() => setTimeperiod(day)}>
-              {day}
+            <SelectButton
+              mode={mode}
+              key={day.value}
+              onClick={() => setTimeperiod(day.value)}
+            >
+              {day.label}
             </SelectButton>
           ))}
-        </div>
+        </ButtonContainer>
       </MainContainer>
     </ContainerDiv>
   );
