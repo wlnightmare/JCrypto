@@ -20,7 +20,6 @@ const StyledButton = styled(Button)`
   top: 10px;
   right: 5%;
   margin-right: -16px;
-
   color: orange;
 `;
 const StyledSelect = styled("select")<ModeType>`
@@ -55,6 +54,13 @@ const OpenModalButton = styled(Button)<ModeType>`
   right: 8%;
 `;
 
+// const StyledAppBar = styled("div")`
+//   display: flex;
+//   justify-content: space-between;
+//   @media (max-width: 1110px) {
+//     gap: 5px;
+//   }
+// `;
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useAppDispatch();
@@ -111,12 +117,15 @@ const TopBar = () => {
 
       {isAuth ? (
         <OpenModalButton mode={mode} onClick={handleLogOut}>
-          Logout
+          <div style={{ textTransform: "none" }}>Logout</div>
         </OpenModalButton>
       ) : (
-        <OpenModalButton mode={mode} onClick={handleClick}>
-          <div>Login {open && <AuthModal open={open} />}</div>
-        </OpenModalButton>
+        <>
+          <OpenModalButton mode={mode} onClick={handleClick}>
+            <div style={{ textTransform: "none" }}>Login</div>
+          </OpenModalButton>
+          {open && <AuthModal open={open} />}
+        </>
       )}
 
       {!mode ? (
