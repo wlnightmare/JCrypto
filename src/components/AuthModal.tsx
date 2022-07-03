@@ -2,7 +2,6 @@ import { Modal } from "@mui/material";
 import { FC, useState } from "react";
 import { setClose } from "../app/modalSlice";
 import { useAppDispatch } from "../hooks/redux-hooks";
-import { useAuth } from "../hooks/useAuth";
 import { ModalOpenClose } from "../types";
 import { SignIn } from "./SignIn";
 import { SignUp } from "./SignUp";
