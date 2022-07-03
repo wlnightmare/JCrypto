@@ -2,11 +2,11 @@ import { InputAdornment, styled, TextField } from "@mui/material";
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import SearchIcon from "./SearchIcon";
+import { COLORS } from "../constants/color";
 
 const InputContainer = styled("div")`
   width: 100%;
-  background: #ffffff;
-  margin-top: 24px;
+  margin-top: 45px;
   margin-bottom: 24px;
 `;
 const StyledTextField = styled(TextField)`
@@ -21,6 +21,8 @@ type Props = {
 };
 
 const SearchBar: FC<Props> = ({ setSearchTerm }) => {
+  const location = useLocation().pathname;
+
   return (
     <>
       <InputContainer>
@@ -37,7 +39,7 @@ const SearchBar: FC<Props> = ({ setSearchTerm }) => {
               </InputAdornment>
             ),
           }}
-          placeholder="search coins..."
+          placeholder={location === "/news" ? "search news" : "search coins"}
         />
       </InputContainer>
     </>
