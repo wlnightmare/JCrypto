@@ -10,25 +10,27 @@ import {
   TableRow,
 } from "@mui/material";
 import millify from "millify";
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import SearchBar from "../components/SearchBar";
 import { COLORS } from "../constants/color";
 import { useGetCryptosQuery } from "../services/api";
 import { Currency, ModeType } from "../types";
+import { addToCart } from "../app/favoriteSlice";
+import { setData, toggledone } from "../app/coins.Slice";
 
+type Props = {
+  simplified?: boolean;
+  mode: boolean;
+};
 const CryptoImg = styled("img")`
   width: 35px;
   object-fit: contain;
 `;
-
-type Props = {
-  simplified?: boolean;
-  mode?: boolean;
-};
 
 export const numberWithCommas = (x: string, currency: string) => {
   if (currency === "USD") {
@@ -38,54 +40,70 @@ export const numberWithCommas = (x: string, currency: string) => {
   }
 };
 
+const StyledTableHead = styled(TableHead)<ModeType>`
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
+`;
+const CoinTableCell = styled(TableCell)<ModeType>`
+  color: ${(props) => (props.mode ? `white` : `black`)};
+`;
+const TableHeadTitle = styled(TableCell)<ModeType>`
+  color: ${(props) => (props.mode ? "black" : "white")};
+`;
 const Coins: FC<Props> = ({ simplified, mode }) => {
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const count = simplified ? 10 : 50;
   const symbol = useSelector((state: RootState) => state.currency.symbol);
   const currency = useSelector((state: RootState) => state.currency.currency);
-  const count = simplified ? 10 : 100;
+
+  const cryptos = useSelector((state: RootState) => state.coins.coins);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const { data: cryptoList } = useGetCryptosQuery(count);
-  const [cryptos, setCryptos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const filteredData = cryptoList?.data?.coins.filter((coin: Currency) =>
       coin.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setCryptos(filteredData);
-  }, [cryptoList, searchTerm]);
 
-  const headers = ["Coin", "Price", "24h Change", "Market Cap", "Graph"];
-  if (!cryptoList) return <CircularProgress />;
+    dispatch(setData(filteredData));
+  }, [cryptoList, searchTerm, dispatch]);
+
+  const addToWishList = (item: Currency) => {
+    dispatch(addToCart(item));
+    dispatch(toggledone(item));
+  };
+
+  const headers = ["Coin", "Price", "24h Change", "Market Cap", "Wishlist"];
+  if (!cryptos) return <CircularProgress />;
   return (
     <>
       {!simplified && <SearchBar setSearchTerm={setSearchTerm} />}
 
       <TableContainer
-        style={{ backgroundColor: COLORS.WHITE, cursor: "pointer" }}
+        style={{ backgroundColor: "transparent", cursor: "pointer" }}
         component={Paper}
       >
         <Table aria-label="simple table">
-          <TableHead style={{ backgroundColor: COLORS.SECONDARY }}>
+          <StyledTableHead mode={mode}>
             <TableRow>
               {headers.map((head) => (
-                <TableCell
-                  style={{
-                    color: "white",
-                    fontWeight: "700",
-                    fontFamily: "Montserrat Alternates",
-                  }}
-                  key={head}
-                >
+                <TableHeadTitle mode={mode} key={head}>
                   {head}
-                </TableCell>
+                </TableHeadTitle>
               ))}
             </TableRow>
-          </TableHead>
+          </StyledTableHead>
           <TableBody>
             {cryptos?.map((coins: Currency) => {
+              console.log(coins);
               return (
                 <TableRow key={coins.uuid}>
-                  <TableCell
+                  <CoinTableCell
+                    mode={mode}
                     style={{ display: "flex" }}
                     onClick={() => navigate(`/crypto/${coins.uuid}`)}
                   >
@@ -96,25 +114,31 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
                       </p>
                       <p>{coins.name}</p>
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </CoinTableCell>
+                  <CoinTableCell mode={mode}>
                     {symbol}&nbsp;
                     {millify(numberWithCommas(coins.price, currency))}
-                  </TableCell>
+                  </CoinTableCell>
 
-                  <TableCell
+                  <CoinTableCell
+                    mode={mode}
                     style={{
                       color: +coins.price < 0 ? "rgb(14, 203, 129)" : "red",
                       fontWeight: 500,
                     }}
                   >
                     {millify(+coins.change)}%
-                  </TableCell>
-                  <TableCell>
+                  </CoinTableCell>
+                  <CoinTableCell mode={mode}>
                     {symbol} &nbsp;
                     {millify(numberWithCommas(coins.marketCap, currency))}
-                  </TableCell>
-                  <TableCell>тут граф</TableCell>
+                  </CoinTableCell>
+                  <CoinTableCell mode={mode}>
+                    <FavoriteBorderIcon
+                      style={{ color: coins.done && mode ? "red" : "black" }}
+                      onClick={() => addToWishList(coins)}
+                    />
+                  </CoinTableCell>
                 </TableRow>
               );
             })}
