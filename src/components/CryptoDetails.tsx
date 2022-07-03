@@ -32,6 +32,8 @@ const CoinHeading = styled("div")<ModeType>`
     align-items: center;
   }
   @media (max-width: 900px) {
+    margin-left: -20px;
+    float: left;
   }
 `;
 const ContainerDiv = styled("div")`
@@ -59,8 +61,12 @@ const MainContainer = styled("div")`
 
 const StyledDivider = styled(Divider)<ModeType>`
   border: ${(props) => (props.mode ? "1px solid white" : "1px solid grey")};
-  @media (max-width: 800px) {
-    display: none;
+  margin-left: 23px;
+  @media (max-width: 1110px) {
+    margin-left: 30px;
+  }
+  @media (max-width: 1000px) {
+    margin-left: 39px;
   }
 `;
 const ButtonContainer = styled("div")`
@@ -72,11 +78,8 @@ const ButtonContainer = styled("div")`
 `;
 
 const SelectButton = styled(Button)<ModeType>`
-  border: 2px solid #ef5630;
   border-radius: 5;
-  padding: 10;
-  padding-left: 20;
-  padding-right: 20;
+  margin-top: 10px;
   font-weight: bold;
   font-family: "Montserrat Alternates", sans-serif;
   cursor: pointer;
@@ -84,15 +87,20 @@ const SelectButton = styled(Button)<ModeType>`
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   color: ${(props) => (props.mode ? `${COLORS.SECONDARY}` : "white")};
   &:hover {
-    background-color: "#ef5630";
-    border: 2px solid #ef5630;
-    color: black;
+    background-color: ${COLORS.DETAILS};
+    color: ${(props) => (props.mode ? `${COLORS.WHITE}` : `${COLORS.DETAILS}`)};
   }
-  width: 22%;
+  @media (max-width: 500px) {
+    padding: 3px 3px;
+  }
 `;
 
-const CoinHeader = styled("h2")<ModeType>`
-  color: ${(props) => (props.mode ? `white` : "black")};
+const CoinHeader = styled("h3")<ModeType>`
+  color: ${(props) => (props.mode ? `${COLORS.WHITE}` : `${COLORS.DETAILS}`)};
+  font-size: 27px !important;
+  @media (max-width: 900px) {
+    font-size: 19px !important;
+  }
 `;
 const CryptoDetails: FC<ModeType> = ({ mode }) => {
   const symbol = useSelector((state: RootState) => state.currency.symbol);

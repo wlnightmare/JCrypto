@@ -1,6 +1,6 @@
 import { auth, signInWithEmailAndPassword } from "../firebase";
 import { setUser } from "../app/userSlice";
-import { useAppDispatch } from "../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { FC } from "react";
 import { AuthProp, FormValues } from "../types";
 import {
@@ -18,13 +18,12 @@ import {
   StyledLine,
   CustomBox,
   StyledSubmitButton,
+  StyledButton,
 } from "../constants/formStyle";
 
-const StyledButton = styled(Button)`
-  text-transform: none;
-`;
 export const SignIn: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
   const dispatch = useAppDispatch();
+  const mode = useAppSelector((state) => state.mode.darkmode);
   const { handleSubmit, reset, control } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
@@ -106,7 +105,7 @@ export const SignIn: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
             )}
           />
         </FormControl>
-        <StyledSubmitButton variant="contained" type="submit">
+        <StyledSubmitButton mode={mode} variant="contained" type="submit">
           Sign In
         </StyledSubmitButton>
       </form>

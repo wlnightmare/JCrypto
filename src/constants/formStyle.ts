@@ -1,4 +1,5 @@
 import { Box, Button, styled } from "@mui/material";
+import { ModeType } from "../types";
 import { COLORS } from "./color";
 
 export const StyledBox = styled(Box)`
@@ -29,8 +30,14 @@ export const CustomBox = styled("div")`
   padding: 25px;
 `;
 
-export const StyledSubmitButton = styled(Button)`
+export const StyledSubmitButton = styled(Button)<ModeType>`
   display: block;
   margin: 0 auto;
   width: 220px;
+  background-color: ${(props) =>
+    props.mode ? `${COLORS.HEADER}` : `${COLORS.SECONDARY}`};
+`;
+
+export const StyledButton = styled(Button)`
+  text-transform: none;
 `;

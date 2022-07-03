@@ -21,7 +21,7 @@ import { COLORS } from "../constants/color";
 import { useGetCryptosQuery } from "../services/api";
 import { Currency, ModeType } from "../types";
 import { addToCart } from "../app/favoriteSlice";
-import { setData, toggledone } from "../app/coins.Slice";
+import { setData, toggledone, toggleundone } from "../app/coins.Slice";
 
 type Props = {
   simplified?: boolean;
@@ -57,6 +57,7 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
   const currency = useSelector((state: RootState) => state.currency.currency);
 
   const cryptos = useSelector((state: RootState) => state.coins.coins);
+  const [isClicked, setIsClicked] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -73,10 +74,15 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
   }, [cryptoList, searchTerm, dispatch]);
 
   const addToWishList = (item: Currency) => {
+    setIsClicked(true);
     dispatch(addToCart(item));
     dispatch(toggledone(item));
   };
 
+  const removeFromWishList = (item: Currency) => {
+    setIsClicked(false);
+    dispatch(toggleundone(item));
+  };
   const headers = ["Coin", "Price", "24h Change", "Market Cap", "Wishlist"];
   if (!cryptos) return <CircularProgress />;
   return (
@@ -99,7 +105,6 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
           </StyledTableHead>
           <TableBody>
             {cryptos?.map((coins: Currency) => {
-              console.log(coins);
               return (
                 <TableRow key={coins.uuid}>
                   <CoinTableCell
@@ -134,10 +139,17 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
                     {millify(numberWithCommas(coins.marketCap, currency))}
                   </CoinTableCell>
                   <CoinTableCell mode={mode}>
-                    <FavoriteBorderIcon
-                      style={{ color: coins.done && mode ? "red" : "black" }}
-                      onClick={() => addToWishList(coins)}
-                    />
+                    {!isClicked ? (
+                      <FavoriteBorderIcon
+                        style={{ color: coins.done ? "red" : "black" }}
+                        onClick={() => addToWishList(coins)}
+                      />
+                    ) : (
+                      <FavoriteBorderIcon
+                        style={{ color: coins.done ? "red" : "black" }}
+                        onClick={() => removeFromWishList(coins)}
+                      ></FavoriteBorderIcon>
+                    )}
                   </CoinTableCell>
                 </TableRow>
               );

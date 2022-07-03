@@ -1,21 +1,22 @@
-import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, auth } from "../firebase";
 import { setUser } from "../app/userSlice";
-import { useAppDispatch } from "../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { FC } from "react";
-import { Box, Button, FormControl, TextField, Typography } from "@mui/material";
+import { FormControl, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { getFormFieldState } from "../util/getFormFieldState";
 import { validateEmail, validatePassword } from "../util/validateFormInputs";
 import { AuthProp, FormValues } from "../types";
 import {
   CustomBox,
+  StyledButton,
   StyledLine,
   StyledSubmitButton,
 } from "../constants/formStyle";
 
 export const SignUp: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
   const dispatch = useAppDispatch();
+  const mode = useAppSelector((state) => state.mode.darkmode);
   const { handleSubmit, reset, control } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
@@ -100,13 +101,13 @@ export const SignUp: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
             )}
           />
         </FormControl>
-        <StyledSubmitButton variant="contained" type="submit">
+        <StyledSubmitButton mode={mode} variant="contained" type="submit">
           Sign Up
         </StyledSubmitButton>
       </form>
       <StyledLine>
         Already have an account?
-        <Button onClick={handleChangeForm}>Login</Button>
+        <StyledButton onClick={handleChangeForm}>Login</StyledButton>
       </StyledLine>
     </CustomBox>
   );

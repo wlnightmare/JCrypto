@@ -1,7 +1,7 @@
 import Brightness3Icon from "@mui/icons-material/Brightness3";
 import { useLocation } from "react-router-dom";
 import { setOpen } from "../app/modalSlice";
-import { setDarkTheme, setDefaultTheme } from "../app/themeSlice";
+import { toggleTheme } from "../app/themeSlice";
 import { setCurrency } from "../app/symbolSlice";
 import { Button, styled } from "@mui/material";
 import { ModeType } from "../types";
@@ -24,7 +24,7 @@ const StyledButton = styled(Button)`
   color: orange;
 `;
 const StyledSelect = styled("select")<ModeType>`
-  position: fixed;
+  position: absolute;
   font-family: "Poppins", sans-serif;
 
   border: 0;
@@ -35,12 +35,14 @@ const StyledSelect = styled("select")<ModeType>`
   z-index: 1000;
   border-radius: 4px;
   top: 8px;
-  right: 13%;
-  width: 100px;
-  height: 36px;
+  right: 14%;
+  width: 80px;
+  height: 36.5px;
+  font-weight: bold;
+  text-align: center;
 `;
 const OpenModalButton = styled(Button)<ModeType>`
-  position: fixed;
+  position: absolute;
   background-color: ${(props) =>
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   border: ${(props) =>
@@ -80,13 +82,16 @@ const TopBar = () => {
     dispatch(setOpen());
   };
 
-  const setDark = () => {
-    dispatch(setDarkTheme());
+  const handleMode = () => {
+    dispatch(toggleTheme());
   };
+  // const setDark = () => {
+  //   dispatch(setDarkTheme());
+  // };
 
-  const setDefault = () => {
-    dispatch(setDefaultTheme());
-  };
+  // const setDefault = () => {
+  //   dispatch(setDefaultTheme());
+  // };
   const handleLogOut = () => {
     auth
       .signOut()
@@ -121,11 +126,11 @@ const TopBar = () => {
       )}
 
       {!mode ? (
-        <StyledButton onClick={setDark}>
+        <StyledButton onClick={handleMode}>
           <Brightness3Icon />
         </StyledButton>
       ) : (
-        <StyledButton onClick={setDefault}>
+        <StyledButton onClick={handleMode}>
           <LightModeIcon />
         </StyledButton>
       )}

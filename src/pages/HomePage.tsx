@@ -87,18 +87,6 @@ export const HomePage = (props: Props) => {
         columns={{ xs: 2, sm: 3, md: 14 }}
       >
         {titles.map((title) => (
-          <StyledGridItem mode={props.mode} item xs={5}>
-            <h3>{title.header}</h3>
-            <p>{millify(+globalStats[title.key])}</p>
-          </StyledGridItem>
-        ))}
-      </Grid>
-      <Grid
-        container
-        spacing={{ xs: 1, md: 4 }}
-        columns={{ xs: 2, sm: 3, md: 14 }}
-      >
-        {titles.map((title) => (
           <StyledGridItem key={title.header} mode={props.mode} item xs={5}>
             <h3>{title.header}</h3>
             <p>{millify(+globalStats[title.key])}</p>

@@ -28,8 +28,15 @@ const coinSlice = createSlice({
       state.coins[index].done = true;
       localStorage.setItem("coins", JSON.stringify(state.coins));
     },
+    toggleundone(state, action) {
+      const index = state.coins.findIndex(
+        (item: Currency) => item.uuid === action.payload.uuid
+      );
+      state.coins[index].done = false;
+      localStorage.setItem("coins", JSON.stringify(state.coins));
+    },
   },
 });
-export const { setData, toggledone } = coinSlice.actions;
+export const { setData, toggledone, toggleundone } = coinSlice.actions;
 
 export default coinSlice.reducer;

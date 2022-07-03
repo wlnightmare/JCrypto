@@ -7,9 +7,11 @@ import { ModalOpenClose } from "../types";
 import { SignIn } from "./SignIn";
 import { SignUp } from "./SignUp";
 import { StyledBox } from "../constants/formStyle";
+import { useDispatch } from "react-redux";
 
 const AuthModal: FC<ModalOpenClose> = ({ open }) => {
   const dispatch = useAppDispatch();
+
   const { email } = useAuth();
   const [isSigned, setIsSigned] = useState(true);
   const handleClose = () => {
@@ -22,8 +24,7 @@ const AuthModal: FC<ModalOpenClose> = ({ open }) => {
     <Modal
       open={open}
       onClose={handleClose}
-      closeAfterTransition
-      aria-labelledby="modal-modal-title dg"
+      aria-labelledby="modal-modal-title "
       aria-describedby="modal-modal-description"
       style={{
         display: "flex",

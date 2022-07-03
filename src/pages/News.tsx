@@ -37,7 +37,7 @@ const StyledCard = styled(Card)<ModeType>`
     transform: translateY(0) scale(1.1);
     transition: 0.2s;
   }
-  background-color: ${COLORS.WHITE};
+  background-color: #dfdfde;
   padding: 10px;
   width: 300px;
 `;

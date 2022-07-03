@@ -18,6 +18,9 @@ type LineChartProps = {
 
 const StyledLine = styled(Line)<ModeType>`
   background-color: ${(props) => (props.mode ? "transparent" : "")};
+  @media (max-width: 800px) {
+    margin-left: -20px;
+  }
 `;
 
 export const LineChart: FC<LineChartProps> = ({

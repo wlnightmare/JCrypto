@@ -45,7 +45,7 @@ const StyledDiv = styled("div")<ModeType>`
 `;
 
 const StyledMenuItem = styled(MenuItem)`
-  flex: 1 0 auto;
+  width: 180px;
   &:hover {
     border: 1px solid white;
     background-color: transparent;
@@ -67,10 +67,11 @@ const StyledButton = styled(Button)`
     color: white;
   }
 `;
-const StyledMenuList = styled(MenuList)`
+const StyledMenuList = styled(MenuList)<ModeType>`
   position: absolute;
   @media (max-width: 800px) {
-    background-color: ${COLORS.DETAILS};
+    background-color: ${(props) =>
+      props.mode ? `${COLORS.DETAILS}` : `${COLORS.LIGHT}`};
     margin-top: 52px;
   }
 `;
@@ -142,7 +143,7 @@ export const NavBar: FC<Props> = ({ mode }) => {
           <MenuIcon style={{ color: mode ? "white" : `${COLORS.LIGHT}` }} />
         </MenuButton>
         {activeMenu && (
-          <StyledMenuList>
+          <StyledMenuList mode={mode}>
             {navBarLinks.map((list) => (
               <StyledMenuItem
                 onClick={() => handleClick(list.path)}
