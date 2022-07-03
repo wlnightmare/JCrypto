@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { COLORS } from "../constants/color";
 import { time } from "../constants/mockData";
 import { useAppSelector } from "../hooks/redux-hooks";
-import { numberWithCommas } from "../pages/Coins";
+import { changeSymbol } from "../pages/Coins";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
@@ -136,12 +136,12 @@ const CryptoDetails: FC<ModeType> = ({ mode }) => {
         <Title>
           Current Price:
           {symbol}&nbsp;
-          {millify(numberWithCommas(cryptoDetail.price, currency))}
+          {millify(changeSymbol(cryptoDetail.price, currency))}
         </Title>
         <Title>
           Market Cap:
           {symbol}&nbsp;
-          {millify(numberWithCommas(cryptoDetail.marketCap, currency))}
+          {millify(changeSymbol(cryptoDetail.marketCap, currency))}
         </Title>
       </CoinHeading>
       <StyledDivider mode={mode} orientation="vertical" flexItem />

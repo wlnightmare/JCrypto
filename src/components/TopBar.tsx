@@ -14,34 +14,30 @@ import { auth, onAuthStateChanged } from "../firebase";
 import { ChangeEvent, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 
-const StyledButton = styled(Button)`
+const StyledDiv = styled("div")`
   position: absolute;
   z-index: 1000;
   top: 10px;
   right: 5%;
   margin-right: -16px;
+`;
+const StyledButton = styled(Button)`
   color: orange;
 `;
 const StyledSelect = styled("select")<ModeType>`
-  position: absolute;
   font-family: "Poppins", sans-serif;
-
   border: 0;
   color: ${(props) => (props.mode ? "black" : `white`)};
-
   background-color: ${(props) =>
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
-  z-index: 1000;
   border-radius: 4px;
-  top: 8px;
-  right: 14%;
   width: 80px;
   height: 36.5px;
   font-weight: bold;
   text-align: center;
+  margin-right: 10px;
 `;
 const OpenModalButton = styled(Button)<ModeType>`
-  position: absolute;
   background-color: ${(props) =>
     props.mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`};
   border: ${(props) =>
@@ -49,18 +45,8 @@ const OpenModalButton = styled(Button)<ModeType>`
   color: ${(props) => (props.mode ? "black" : `white`)};
   font-family: "Poppins", sans-serif;
   font-weight: bold;
-  z-index: 1000;
-  top: 9px;
-  right: 8%;
 `;
 
-// const StyledAppBar = styled("div")`
-//   display: flex;
-//   justify-content: space-between;
-//   @media (max-width: 1110px) {
-//     gap: 5px;
-//   }
-// `;
 const TopBar = () => {
   const pathname = useLocation().pathname;
   const dispatch = useAppDispatch();
@@ -108,35 +94,37 @@ const TopBar = () => {
 
   return (
     <>
-      {pathname !== "/news" ? (
-        <StyledSelect onChange={handleChange} value={currency} mode={mode}>
-          <option value={"USD"}>USD</option>
-          <option value={"KZT"}>KZT</option>
-        </StyledSelect>
-      ) : null}
+      <StyledDiv>
+        {pathname !== "/news" ? (
+          <StyledSelect onChange={handleChange} value={currency} mode={mode}>
+            <option value={"USD"}>USD</option>
+            <option value={"KZT"}>KZT</option>
+          </StyledSelect>
+        ) : null}
 
-      {isAuth ? (
-        <OpenModalButton mode={mode} onClick={handleLogOut}>
-          <div style={{ textTransform: "none" }}>Logout</div>
-        </OpenModalButton>
-      ) : (
-        <>
-          <OpenModalButton mode={mode} onClick={handleClick}>
-            <div style={{ textTransform: "none" }}>Login</div>
+        {isAuth ? (
+          <OpenModalButton mode={mode} onClick={handleLogOut}>
+            <div style={{ textTransform: "none" }}>Logout</div>
           </OpenModalButton>
-          {open && <AuthModal open={open} />}
-        </>
-      )}
+        ) : (
+          <>
+            <OpenModalButton mode={mode} onClick={handleClick}>
+              <div style={{ textTransform: "none" }}>Login</div>
+            </OpenModalButton>
+            {open && <AuthModal open={open} />}
+          </>
+        )}
 
-      {!mode ? (
-        <StyledButton onClick={handleMode}>
-          <Brightness3Icon />
-        </StyledButton>
-      ) : (
-        <StyledButton onClick={handleMode}>
-          <LightModeIcon />
-        </StyledButton>
-      )}
+        {!mode ? (
+          <StyledButton onClick={handleMode}>
+            <Brightness3Icon />
+          </StyledButton>
+        ) : (
+          <StyledButton onClick={handleMode}>
+            <LightModeIcon />
+          </StyledButton>
+        )}
+      </StyledDiv>
     </>
   );
 };

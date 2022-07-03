@@ -3,13 +3,7 @@ import { setUser } from "../app/userSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { FC } from "react";
 import { AuthProp, FormValues } from "../types";
-import {
-  Button,
-  FormControl,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { FormControl, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { getFormFieldState } from "../util/getFormFieldState";
 import { validateEmail, validatePassword } from "../util/validateFormInputs";

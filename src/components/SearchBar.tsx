@@ -6,14 +6,18 @@ import { useAppSelector } from "../hooks/redux-hooks";
 import { ModeType } from "../types";
 import SearchIcon from "./SearchIcon";
 
+type NavbarType = {
+  mode: boolean;
+  location: string;
+};
 const InputContainer = styled("div")`
   width: 100%;
-  margin-top: 45px;
+  margin-top: 50px;
   margin-bottom: 24px;
 `;
-const StyledTextField = styled(TextField)<ModeType>`
-  height: 80%;
-  width: 100%;
+const StyledTextField = styled(TextField)<NavbarType>`
+  width: ${(props) => (props.location === "/news" ? "82%" : "100%")};
+
   margin: 0;
   outline: none;
   background-color: ${(props) =>
@@ -33,6 +37,7 @@ const SearchBar: FC<Props> = ({ setSearchTerm }) => {
       <InputContainer>
         <StyledTextField
           mode={mode}
+          location={location}
           onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           InputProps={{
             style: {

@@ -12,7 +12,6 @@ import {
 import millify from "millify";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../app/store";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import SearchBar from "../components/SearchBar";
@@ -32,7 +31,7 @@ const CryptoImg = styled("img")`
   object-fit: contain;
 `;
 
-export const numberWithCommas = (x: string, currency: string) => {
+export const changeSymbol = (x: string, currency: string) => {
   if (currency === "USD") {
     return +x;
   } else {
@@ -122,7 +121,7 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
                   </CoinTableCell>
                   <CoinTableCell mode={mode}>
                     {symbol}&nbsp;
-                    {millify(numberWithCommas(coins.price, currency))}
+                    {millify(changeSymbol(coins.price, currency))}
                   </CoinTableCell>
 
                   <CoinTableCell
@@ -136,7 +135,7 @@ const Coins: FC<Props> = ({ simplified, mode }) => {
                   </CoinTableCell>
                   <CoinTableCell mode={mode}>
                     {symbol} &nbsp;
-                    {millify(numberWithCommas(coins.marketCap, currency))}
+                    {millify(changeSymbol(coins.marketCap, currency))}
                   </CoinTableCell>
                   <CoinTableCell mode={mode}>
                     {!isClicked ? (

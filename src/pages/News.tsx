@@ -2,7 +2,6 @@ import { Box, Card, CircularProgress, styled } from "@mui/material";
 import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
-import { COLORS } from "../constants/color";
 import { useGetCryptoNewsQuery } from "../services/cryptoNews";
 import { ModeType, NewsType } from "../types";
 
@@ -22,7 +21,7 @@ const StyledIcon = styled("img")`
 const StyledCardsContainer = styled("div")`
   display: flex;
 
-  gap: 15px;
+  gap: 22px;
   flex-wrap: wrap;
   @media (max-width: 800px) {
     justify-content: center;
@@ -34,9 +33,10 @@ const StyledCard = styled(Card)<ModeType>`
     transform: translateY(0) scale(1.1);
     transition: 0.2s;
   }
-  background-color: #dfdfde;
-  padding: 10px;
+  min-height: 100%;
   width: 300px;
+  background-color: #fbfbfb;
+  padding: 10px;
 `;
 
 const News: FC<Props> = ({ simplified, mode }) => {
