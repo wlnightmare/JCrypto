@@ -23,7 +23,7 @@ const AuthModal: FC<ModalOpenClose> = ({ open }) => {
       open={open}
       onClose={handleClose}
       closeAfterTransition
-      aria-labelledby="modal-modal-title"
+      aria-labelledby="modal-modal-title dg"
       aria-describedby="modal-modal-description"
       style={{
         display: "flex",
