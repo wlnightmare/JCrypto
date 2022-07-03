@@ -21,6 +21,7 @@ export interface Currency {
   numberOfMarkets: number;
   description: string;
   links: ICoinLinks[];
+  done: boolean;
 }
 export interface ICoinHistoryResult {
   change: string;
@@ -75,4 +76,8 @@ export type ModeType = {
 
 export interface ThemeStore {
   darkmode: boolean;
+}
+
+export interface FavoriteStore {
+  wishlist: Currency[];
 }
