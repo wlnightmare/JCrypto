@@ -3,11 +3,10 @@ import { ICoinHistoryResult, ModeType } from "../types";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
 import { COLORS } from "../constants/color";
-import { red } from "@mui/material/colors";
+
 import { styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { numberWithCommas } from "../pages/Coins";
 
 ChartJS.register(...registerables);
 type LineChartProps = {
@@ -18,7 +17,7 @@ type LineChartProps = {
 };
 
 const StyledLine = styled(Line)<ModeType>`
-  background-color: ${(props) => (props.mode ? "black" : "")};
+  background-color: ${(props) => (props.mode ? "transparent" : "")};
 `;
 
 export const LineChart: FC<LineChartProps> = ({
@@ -29,7 +28,6 @@ export const LineChart: FC<LineChartProps> = ({
 }) => {
   const coinPrice: string[] = [];
   const coinTimestamp: string[] = [];
-
   const currency = useSelector((state: RootState) => state.currency.currency);
 
   for (let i = 0; i < coinHistory?.history.length!; i += 1) {
@@ -46,11 +44,11 @@ export const LineChart: FC<LineChartProps> = ({
     labels: coinTimestamp,
     datasets: [
       {
-        label: "Price in USD",
+        label: `Price in ${currency}`,
         data: coinPrice,
         fill: false,
-        backgroundColor: mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`,
-        borderColor: mode ? `${COLORS.DETAILS}` : `${COLORS.SECONDARY}`,
+        backgroundColor: mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`,
+        borderColor: mode ? `${COLORS.HEADER}` : `${COLORS.LIGHT}`,
       },
     ],
   };
@@ -59,7 +57,7 @@ export const LineChart: FC<LineChartProps> = ({
     plugins: {
       title: {
         display: true,
-        text: `${coinName} to USD`,
+        text: `${coinName} to ${currency}`,
       },
     },
   };
