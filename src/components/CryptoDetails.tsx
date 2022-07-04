@@ -11,7 +11,7 @@ import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
 } from "../services/api";
-import { Currency, ModeType } from "../types";
+import { Currency, ICoinHistoryResult, ModeType } from "../types";
 import { LineChart } from "./LineChart";
 
 const CoinHeading = styled("div")<ModeType>`
@@ -104,8 +104,8 @@ const CoinHeader = styled("h3")<ModeType>`
 const CryptoDetails: FC<ModeType> = ({ mode }) => {
   const symbol = useAppSelector((state) => state.currency.symbol);
   const currency = useAppSelector((state) => state.currency.currency);
-  const { coinId } = useParams();
   const [timeperiod, setTimeperiod] = useState<string>("24h");
+  const { coinId } = useParams();
   const { data } = useGetCryptoDetailsQuery(coinId);
   const { data: dataHistory } = useGetCryptoHistoryQuery({
     coinId,
@@ -113,7 +113,7 @@ const CryptoDetails: FC<ModeType> = ({ mode }) => {
   });
 
   const cryptoDetail: Currency = data?.data?.coin;
-  const coinHistory = dataHistory?.data;
+  const coinHistory: ICoinHistoryResult = dataHistory?.data;
 
   if (!cryptoDetail && !coinHistory) return <CircularProgress />;
 
@@ -145,11 +145,10 @@ const CryptoDetails: FC<ModeType> = ({ mode }) => {
         </Title>
       </CoinHeading>
       <StyledDivider mode={mode} orientation="vertical" flexItem />
-
       <MainContainer>
         <LineChart
           mode={mode}
-          coinHistory={coinHistory!}
+          coinHistory={coinHistory}
           currentPrice={millify(+cryptoDetail?.price ?? 0)}
           coinName={cryptoDetail?.name}
         />

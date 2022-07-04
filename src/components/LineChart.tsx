@@ -24,12 +24,11 @@ export const LineChart: FC<LineChartProps> = ({
   const coinPrice: string[] = [];
   const coinTimestamp: string[] = [];
   const currency = useAppSelector((state) => state.currency.currency);
-
-  for (let i = 0; i < coinHistory?.history.length!; i += 1) {
+  for (let i = 0; i < coinHistory?.history.length; i += 1) {
     coinPrice.push(coinHistory?.history[i].price);
   }
 
-  for (let i = 0; i < coinHistory?.history.length!; i += 1) {
+  for (let i = 0; i < coinHistory?.history.length; i += 1) {
     coinTimestamp.push(
       new Date(coinHistory?.history[i].timestamp * 1000).toLocaleDateString()
     );
@@ -54,6 +53,9 @@ export const LineChart: FC<LineChartProps> = ({
         display: true,
         text: `${coinName} to ${currency}`,
       },
+    },
+    elements: {
+      point: { radius: 1 },
     },
   };
 
