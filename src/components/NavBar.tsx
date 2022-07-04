@@ -106,10 +106,12 @@ const navBarLinks = [
 export const NavBar: FC<ModeType> = ({ mode }) => {
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(0);
+  const [isClicked, setClicked] = useState(true);
 
   const navigate = useNavigate();
 
   const handleClick = (path: string) => {
+    setClicked(true);
     navigate(path);
   };
   useEffect(() => {
@@ -129,6 +131,7 @@ export const NavBar: FC<ModeType> = ({ mode }) => {
       setActiveMenu(true);
     }
   }, [screenSize]);
+
   return (
     <>
       <StyledDiv mode={mode}>
@@ -142,7 +145,10 @@ export const NavBar: FC<ModeType> = ({ mode }) => {
           <StyledMenuList mode={mode}>
             {navBarLinks.map((list) => (
               <StyledMenuItem
-                onClick={() => handleClick(list.path)}
+                onClick={() => {
+                  handleClick(list.path);
+                  setActiveMenu(false);
+                }}
                 key={list.name}
                 style={{ marginBottom: "15px" }}
               >

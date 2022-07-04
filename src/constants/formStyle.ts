@@ -25,6 +25,10 @@ export const StyledBox = styled(Box)`
 export const StyledLine = styled("span")`
   text-align: center;
   margin-left: 42px;
+  margin-top: 23px;
+  @media (max-width: 600px) {
+    margin-left: 30px;
+  }
 `;
 export const CustomBox = styled("div")`
   padding: 25px;
@@ -40,4 +44,7 @@ export const StyledSubmitButton = styled(Button)<ModeType>`
 
 export const StyledButton = styled(Button)`
   text-transform: none;
+  @media (max-width: 500px) {
+    margin-left: 70px;
+  }
 `;

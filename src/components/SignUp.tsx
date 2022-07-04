@@ -47,7 +47,9 @@ export const SignUp: FC<AuthProp> = ({ handleClose, handleChangeForm }) => {
 
   return (
     <CustomBox>
-      <Typography variant="h5">Complete Sign Up Form</Typography>
+      <Typography style={{ textAlign: "center" }} variant="h5">
+        Complete Sign Up Form
+      </Typography>
       <form
         style={{ marginTop: "10px" }}
         onSubmit={handleSubmit(handleRegister)}
